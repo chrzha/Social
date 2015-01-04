@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/tx  
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd http://www.springframework.org/schema/aop   
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd http://www.springframework.org/schema/task
+	http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+	<context:annotation-config />
+	<context:component-scan base-package="com.chrzha.social" />
+    
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations" value="classpath:config/dev/application.properties" />
+	</bean>
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${driver}" />
+		<property name="url"
+			value="jdbc:mysql://${hostname}:${portnumber}/${schemaname}?useUnicode=true&amp;characterEncoding=utf8&amp;allowMultiQueries=true" />
+		<property name="username" value="${username}" />
+		<property name="password" value="${password}" />
+		<property name="initialSize" value="1" />   
+		<property name="minIdle" value="3" /> 
+		<property name="maxIdle" value="20" />
+		<property name="maxActive" value="20" />
+		<property name="removeAbandoned" value="true" />
+		<property name="removeAbandonedTimeout" value="180" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+		<property name="validationQueryTimeout" value="1" />
+		<property name="validationQuery"   value="select CURRENT_DATE"/>
+		<property name="timeBetweenEvictionRunsMillis" value="25000" />
+		<property name="numTestsPerEvictionRun" value="150" />
+	</bean>
+
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="hibernateProperties">  
+	            <props>  
+	                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>  
+	                <prop key="hibernate.show_sql">true</prop>  
+	                <prop key="hibernate.hbm2ddl.auto">update</prop>  
+	            </props>  
+	    </property>
+	    <property name="annotatedClasses">  
+            <list>  
+                <value>com.chrzha.social.entity.Image</value>  
+                <value>com.chrzha.social.entity.User</value>  
+                <value>com.chrzha.social.entity.Role</value>  
+            </list>  
+        </property>  
+	</bean>
+    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">  
+        <property name="sessionFactory" ref="sessionFactory"/>  
+    </bean>  
+    <!-- 使用annotation定义事务 -->  
+    <tx:annotation-driven transaction-manager="transactionManager" />  
+    
+</beans>
