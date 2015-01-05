@@ -23,9 +23,11 @@
 						var url = "/social/images/getAll";
 						$
 								.ajax({
+									type : "GET",
 									url : url,
 									dataType : "json",
 									success : function(result) {
+										console.log(result[0].title);
 										var len = result.length;
 											var active;
 											var ol_active;
@@ -53,7 +55,7 @@
 										}
 									},
 									error : function(result) {
-										alert(result);
+										alert("error");
 									}
 								});
 
