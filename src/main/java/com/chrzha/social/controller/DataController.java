@@ -23,10 +23,14 @@ public class DataController {
 
 	 @RequestMapping(value = "/url", method = RequestMethod.GET)
 	    public @ResponseBody
-	    String  LoadData(@RequestParam(required = true, value = "url") String url) {
+	    String  LoadData(@RequestParam(required = true, value = "url") String url,
+	    		@RequestParam(required = true, value = "term1") String term1,
+	    		@RequestParam(required = true, value = "field1") String field1,
+	    		@RequestParam(required = true, value = "term2") String term2,
+	    		@RequestParam(required = true, value = "field2") String field2) {
 	        List<PatentsInfo> patentsInfoList = new ArrayList<PatentsInfo>();
 	        for (int i = 0; i < 10; i++) {
-				patentsInfoList.add(new PatentsInfo(i+1, "A","B", "CHN"));
+				patentsInfoList.add(new PatentsInfo(patentUrl, patentNumber, patentId, patentName, ownerName, assigneeName, fieldName, abstractContent));
 			}
 	        return JSONArray.fromObject(patentsInfoList).toString();
 	    }

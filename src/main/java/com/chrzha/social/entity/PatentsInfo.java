@@ -2,10 +2,58 @@ package com.chrzha.social.entity;
 
 public class PatentsInfo {
 
+	private String patentUrl;
+	private Integer patentNumber;
 	private Integer patentId;
 	private String patentName;
 	private String ownerName;
-	private String countryName;
+	private String assigneeName;
+	private String fieldName;
+	private String abstractContent;
+	
+	public  PatentsInfo() {
+		
+	}
+	public PatentsInfo(String patentUrl, Integer patentNumber,
+			Integer patentId, String patentName, String ownerName,
+			String assigneeName, String fieldName, String abstractContent) {
+		this.patentUrl = patentUrl;
+		this.patentNumber = patentNumber;
+		this.patentId = patentId;
+		this.patentName = patentName;
+		this.ownerName = ownerName;
+		this.assigneeName = assigneeName;
+		this.fieldName = fieldName;
+		this.abstractContent = abstractContent;
+	}
+	@Override
+	public String toString() {
+		return "PatentsInfo [patentUrl=" + patentUrl + ", patentNumber="
+				+ patentNumber + ", patentId=" + patentId + ", patentName="
+				+ patentName + ", ownerName=" + ownerName + ", assigneeName="
+				+ assigneeName + ", fieldName=" + fieldName
+				+ ", abstractContent=" + abstractContent + ", getPatentUrl()="
+				+ getPatentUrl() + ", getPatentNumber()=" + getPatentNumber()
+				+ ", getPatentId()=" + getPatentId() + ", getPatentName()="
+				+ getPatentName() + ", getOwnerName()=" + getOwnerName()
+				+ ", getAssigneeName()=" + getAssigneeName()
+				+ ", getFieldName()=" + getFieldName()
+				+ ", getAbstractContent()=" + getAbstractContent()
+				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
+				+ ", toString()=" + super.toString() + "]";
+	}
+	public String getPatentUrl() {
+		return patentUrl;
+	}
+	public void setPatentUrl(String patentUrl) {
+		this.patentUrl = patentUrl;
+	}
+	public Integer getPatentNumber() {
+		return patentNumber;
+	}
+	public void setPatentNumber(Integer patentNumber) {
+		this.patentNumber = patentNumber;
+	}
 	public Integer getPatentId() {
 		return patentId;
 	}
@@ -24,28 +72,24 @@ public class PatentsInfo {
 	public void setOwnerName(String ownerName) {
 		this.ownerName = ownerName;
 	}
-	public String getCountryName() {
-		return countryName;
+	public String getAssigneeName() {
+		return assigneeName;
 	}
-	public void setCountryName(String countryName) {
-		this.countryName = countryName;
+	public void setAssigneeName(String assigneeName) {
+		this.assigneeName = assigneeName;
 	}
-	@Override
-	public String toString() {
-		return "PatentsInfo [patentId=" + patentId + ", patentName="
-				+ patentName + ", ownerName=" + ownerName + ", countryName="
-				+ countryName + "]";
+	public String getFieldName() {
+		return fieldName;
 	}
-	public PatentsInfo( ) { 
+	public void setFieldName(String fieldName) {
+		this.fieldName = fieldName;
 	}
-	
-	public PatentsInfo(Integer patentId, String patentName, String ownerName,
-			String countryName) {
-		this.patentId = patentId;
-		this.patentName = patentName;
-		this.ownerName = ownerName;
-		this.countryName = countryName;
+	public String getAbstractContent() {
+		return abstractContent;
 	}
-	
+	public void setAbstractContent(String abstractContent) {
+		this.abstractContent = abstractContent;
+	}
 
+	
 }
