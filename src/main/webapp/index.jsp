@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>index</title>
+<title>Crawler</title>
 
 <script
 	src="${pageContext.request.contextPath}/webresource/js/jquery-1.11.1.min.js"></script>
@@ -17,49 +17,28 @@
 	href="${pageContext.request.contextPath}/webresource/css/bootstrap-theme.min.css">
 </link>
 <script type="text/javascript">
-	$(document)
-			.ready(
-					function() {
-						var url = "/social/images/getAll";
-						$
-								.ajax({
-									type : "GET",
-									url : url,
-									dataType : "json",
-									success : function(result) {
-										console.log(result[0].title);
-										var len = result.length;
-											var active;
-											var ol_active;
-										for (var i = 0; i < len; i++) {
-											console.log(result[0].title);
-											if(i==0){
-												ol_active = "active";
-											}else{
-												ol_active = "";
-											}
-											var my_ol = $("<li class='"+ol_active+"' data-slide-to='"+i+"' data-target='#my-carousel'></li>");
-											my_ol.appendTo($(".carousel-indicators"));
-											if(i==0){
-												active = "item active";
-											}else{
-												active = "item";
-											}
-											var img = $("<div class='"+active+"'><img src='${pageContext.request.contextPath}/webresource/img/"+result[i].path+"'/><div class='carousel-caption' contenteditable='true'><h4>"
-													+ result[i].title
-													+ "</h4><p>"
-													+ result[i].content
-													+ "</p></div></div>");
-											img.appendTo($(".carousel-inner"));
-											
-										}
-									},
-									error : function(result) {
-										alert("error");
-									}
-								});
-
-					});
+$(document).ready(function(){
+	
+	$('#my_submit').on('click',function(){
+		var _url = "/data/catch/url";
+		var para={};
+		var my_url = $("#myUrl").val();
+		para.url = my_url;
+		 console.log(my_url);
+		$.ajax({
+					type : "GET",
+					url : _url,
+					data:para,
+					dataType : "json",
+					success : function(result) {
+						 console.log(result);
+					},
+					error : function(result) {
+						alert("error");
+					}
+				});
+		});
+	}); 
 </script>
 </head>
 <body role="document">
@@ -74,7 +53,7 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#">WEB SITE NAME</a>
+			<a class="navbar-brand" href="#"> 页面数据抓取 </a>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
@@ -98,12 +77,22 @@
 	</div>
 	</nav>
 
-	<div class="carousel slide" id="my-carousel">
-		<ol class="carousel-indicators"><!-- auto generate --></ol>
-		<div class="carousel-inner"><!-- load from db --></div>
-		<a data-slide="prev" href="#my-carousel" class="left carousel-control">‹</a>
-		<a data-slide="next" href="#my-carousel"
-			class="right carousel-control">›</a>
+	<div id="my-carousel">
+		<div style="margin-left:30%;margin-top:40px;margin-right:30%;">
+			<form class="form-inline" role="form">
+			   <div class="form-group">
+			      <label for="name">URL</label>
+			      <input type="text" class="form-control" id="myUrl"
+			         placeholder="请输入URL">
+			   </div>
+			   <button type="button" class="btn btn-default" id="my_submit">提交</button>
+			</form>
+		</div>
+		<div>
+		 <tr><td></td></tr>
+		
+		
+		</div>
 	</div>
 
 </body>

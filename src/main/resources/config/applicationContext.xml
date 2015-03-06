@@ -51,9 +51,8 @@
 	    </property>
 	    <property name="annotatedClasses">  
             <list>  
-                <value>com.chrzha.social.entity.Image</value>  
-                <value>com.chrzha.social.entity.User</value>  
-                <value>com.chrzha.social.entity.Role</value>  
+                <value>com.chrzha.social.entity.PatentsInfo</value>  
+                 
             </list>  
         </property>  
 	</bean>
