@@ -26,14 +26,24 @@ public class DataController {
 	@Autowired
 	private DataCatchService dataCatchService;
 	
+	@Autowired
+	private  HttpGetUtil httpGetUtil ;
+	
 	 @RequestMapping(value = "/url", method = RequestMethod.GET)
 	    public @ResponseBody
-	    String  LoadData(@RequestParam(required = true, value = "url") String url,
+	    String  LoadData(@RequestParam(required = false, value = "url") String url,
 	    		@RequestParam(required = false, value = "term1") String term1,
 	    		@RequestParam(required = false, value = "field1") String field1,
+	    		@RequestParam(required = false, value = "operator") String operator,
 	    		@RequestParam(required = false, value = "term2") String term2,
-	    		@RequestParam(required = false, value = "field2") String field2) {
+	    		@RequestParam(required = false, value = "field2") String field2) throws Exception {
+		 String endpoint = "patft.uspto.gov";
+		 String urlString = "/netacgi/nph-Parser?"
+		 		+ "Sect1=PTO2&Sect2=HITOFF&p=1&u=%2Fnetahtml%2FPTO%2Fsearch-bool.html&r=0&f=S&l=50&TERM1="+term1+"&FIELD1="+field1+"&co1="+operator+"&TERM2="+term2+"&FIELD2="+field2+"&d=PTXT";
+		    String result = httpGetUtil.getByString(endpoint, urlString);
+		    System.out.println(result);
 	        List<PatentsInfo> patentsInfoList =  dataCatchService.getPatents();
+	        
 	        return JSONArray.fromObject(patentsInfoList).toString();
 	    }
 }

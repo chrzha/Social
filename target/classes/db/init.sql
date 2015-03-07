@@ -24,3 +24,16 @@ CREATE TABLE IF NOT EXISTS `social_user` (
 	CONSTRAINT `FK_role_id` FOREIGN KEY (`role_id`) REFERENCES `social_role` (`role_id`)
 );
  
+
+CREATE TABLE IF NOT EXISTS `uspto_patent_info` (
+	`patent_id` INT NOT NULL AUTO_INCREMENT,
+	`patent_number` VARCHAR(50) NOT NULL DEFAULT '0',
+	`patent_name` VARCHAR(200) NOT NULL DEFAULT '0',
+	`owner_name` VARCHAR(200) NOT NULL DEFAULT '0',
+	`assignee_name` VARCHAR(200) NOT NULL DEFAULT '0',
+	`patent_url` VARCHAR(200) NOT NULL DEFAULT '0',
+	`field_name` VARCHAR(200) NOT NULL DEFAULT '0',
+	`patent_abstract` TEXT(5000) NULL DEFAULT NULL,
+	PRIMARY KEY (`patent_id`)
+);
+;

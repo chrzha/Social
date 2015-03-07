@@ -4,17 +4,19 @@ import org.apache.http.*;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
-
+import org.springframework.stereotype.Component;
+@Component
 public class HttpGetUtil {
 
-	public static String getByString(String url,String para) throws Exception {
+	public static String getByString(String endpoint,String para) throws Exception {
 		DefaultHttpClient httpclient = new DefaultHttpClient();
+		String result="";
 		try {
 			// specify the host, protocol, and port
-			HttpHost target = new HttpHost("premiumreports.myacxiom.loc", 8080,
+			HttpHost target = new HttpHost(endpoint, 80,
 					"http");
 			// specify the get request
-			HttpGet getRequest = new HttpGet("/v1/reports");
+			HttpGet getRequest = new HttpGet(para);
 			System.out.println("executing request to " + target);
 			HttpResponse httpResponse = httpclient.execute(target, getRequest);
 			HttpEntity entity = httpResponse.getEntity();
@@ -25,7 +27,7 @@ public class HttpGetUtil {
 				System.out.println(headers[i]);
 			}
 			if (entity != null) {
-				System.out.println(EntityUtils.toString(entity));
+				result = EntityUtils.toString(entity) ;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -35,6 +37,6 @@ public class HttpGetUtil {
 			// immediate deallocation of all system resources
 			httpclient.getConnectionManager().shutdown();
 		}
-		return url;
+		return result;
 	}
 }
