@@ -31,13 +31,31 @@ $(document).ready(function(){
 					data:para,
 					dataType : "json",
 					success : function(result) {
-						 console.log(result);
+						createTable(result);
 					},
 					error : function(result) {
 						alert("error");
 					}
 				});
 		});
+
+	function createTable(result){
+       var tb =  $("#my_table tbody");
+       tb.empty();
+       var len = result.length;
+		for(var i=0;i<len;i++){
+			var tr = $("<tr></tr>");
+			tr.append($("<td></td>").text(result[i]["patentNumber"]));
+			tr.append($("<td></td>").text(result[i]["patentName"]));
+			tr.append($("<td></td>").text(result[i]["ownerName"]));
+			tr.append($("<td></td>").text(result[i]["fieldName"]));
+			tr.append($("<td></td>").text(result[i]["abstractContent"]));
+			tr.append($("<td></td>").text(result[i]["patentUrl"]));
+			tb.append(tr);
+		}
+	}
+
+	
 	}); 
 </script>
 </head>
@@ -86,11 +104,25 @@ $(document).ready(function(){
 			         placeholder="请输入URL">
 			   </div>
 			   <button type="button" class="btn btn-default" id="my_submit">提交</button>
+			   <button type="button" class="btn btn-default" id="advance_catch">高级爬取</button>
 			</form>
 		</div>
-		<div>
-		 <tr><td></td></tr>
-		
+		<div style="margin-left:10%;margin-top:40px;margin-right:10%;">
+		 <table class="table table-bordered table-striped" id="my_table">
+				<thead>
+					<tr class="txt-center">
+						<th>PAT . NO</th>
+						<th>Title</th>
+						<th>Owner</th>
+						<th>Field Name</th>
+						<th>Abstract</th>
+						<th>URL</th>
+					</tr>
+				</thead>
+				<tbody>
+					 
+				</tbody>
+			</table>
 		
 		</div>
 	</div>

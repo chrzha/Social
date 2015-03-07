@@ -2,19 +2,19 @@ package com.chrzha.social.entity;
 
 public class PatentsInfo {
 
-	private String patentUrl;
-	private Integer patentNumber;
 	private Integer patentId;
+	private String patentNumber;
 	private String patentName;
 	private String ownerName;
 	private String assigneeName;
+	private String patentUrl;
 	private String fieldName;
 	private String abstractContent;
 	
 	public  PatentsInfo() {
 		
 	}
-	public PatentsInfo(String patentUrl, Integer patentNumber,
+	public PatentsInfo(String patentUrl, String patentNumber,
 			Integer patentId, String patentName, String ownerName,
 			String assigneeName, String fieldName, String abstractContent) {
 		this.patentUrl = patentUrl;
@@ -48,10 +48,10 @@ public class PatentsInfo {
 	public void setPatentUrl(String patentUrl) {
 		this.patentUrl = patentUrl;
 	}
-	public Integer getPatentNumber() {
+	public String getPatentNumber() {
 		return patentNumber;
 	}
-	public void setPatentNumber(Integer patentNumber) {
+	public void setPatentNumber(String patentNumber) {
 		this.patentNumber = patentNumber;
 	}
 	public Integer getPatentId() {

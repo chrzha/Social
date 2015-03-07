@@ -2,10 +2,14 @@ package com.chrzha.social.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.chrzha.social.entity.PatentsInfo;
 import com.chrzha.social.mapper.DataCatchMapper;
 import com.chrzha.social.service.DataCatchService;
 
+@Service
 public class DataCatchServiceImpl implements DataCatchService{
 
 	@Autowired

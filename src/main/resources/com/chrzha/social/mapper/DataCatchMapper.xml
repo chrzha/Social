@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chrzha.social.mapper.DataCatchMapper">
+	<resultMap id="BaseResultMap" type="com.chrzha.social.entity.PatentsInfo">
+		<result column="patent_Id" jdbcType="INTEGER" property="patentId" />
+		<result column="patent_number" jdbcType="VARCHAR" property="patentNumber" />
+		<result column="patent_name" jdbcType="VARCHAR" property="patentName" />
+		<result column="owner_name" jdbcType="VARCHAR" property="ownerName" />
+		<result column="assignee_name" jdbcType="VARCHAR" property="assigneeName" />
+		<result column="patent_url" jdbcType="VARCHAR" property="patentUrl" />
+		<result column="field_name" jdbcType="VARCHAR" property="fieldName" />
+		<result column="patent_abstract" jdbcType="VARCHAR" property="abstractContent" />
+	</resultMap>
+	 
+	<select id="getPatents" resultMap="BaseResultMap"  >
+		 select * from uspto_patent_info
+	</select>
+	
+	<insert id="insertPatents">
+		insert into uspto_patent_info (patent_number,patent_name,owner_name,assignee_name,patent_url,field_name,patent_abstract) values
+		<foreach collection="list" item="item" index="index" separator="," >
+		 (#{item.patentNumber},#{item.patentName},#{item.ownerName},#{item.assigneeName},#{item.patentUrl},#{item.fieldName},#{item.abstractContent})
+		 </foreach>
+	</insert>
+	 
+</mapper>
