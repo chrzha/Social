@@ -1,4 +1,4 @@
-package com.chrzha.social.controller;
+package com.chrzha.social.utility;
 
 import org.apache.http.*;
 import org.apache.http.client.methods.HttpGet;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class HttpGetUtil {
 
-	public static String getByString(String endpoint,String para) throws Exception {
+	public static String getHtmlContent(String endpoint,String para) throws Exception {
 		DefaultHttpClient httpclient = new DefaultHttpClient();
 		String result="";
 		try {
