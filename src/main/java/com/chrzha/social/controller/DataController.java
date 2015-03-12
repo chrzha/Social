@@ -48,4 +48,14 @@ public class DataController {
 		    List<PatentsInfo> patentsInfoList = htmlParserUtil.getPatentInfo(urlList);
 	        return JSONArray.fromObject(patentsInfoList).toString();
 	    }
+	 
+	 @RequestMapping(value = "/simpleUrl", method = RequestMethod.GET)
+	    public @ResponseBody
+	    String  LoadSimpleUrlData(@RequestParam(required = false, value = "url") String url) throws Exception {
+		 String endpoint = "patft.uspto.gov";
+		    String htmlContent = HttpGetUtil.getHtmlContent(endpoint, url);
+		    PatentsInfo patentsInfo  = htmlParserUtil.getPatentInfo(htmlContent);
+		     
+	        return JSONArray.fromObject(patentsInfo).toString();
+	    }
 }

@@ -44,6 +44,24 @@ $(document).ready(function(){
 				});
 		});
 
+	$('#my_submit').on('click',function(){
+		var _url = "/data/catch/simpleUrl";
+		var para={};
+		para.url =  $("#myUrl").val();
+		$.ajax({
+					type : "GET",
+					url : _url,
+					data:para,
+					dataType : "json",
+					success : function(result) {
+						createTable(result);
+					},
+					error : function(result) {
+						alert("error");
+					}
+				});
+		});
+
 	$("#advance_catch").on('click',function(){
 
 		$("#my_submit").hide();
@@ -69,7 +87,7 @@ $(document).ready(function(){
 			tr.append($("<td></td>").text(result[i]["patentName"]));
 			tr.append($("<td></td>").text(result[i]["ownerName"]));
 			tr.append($("<td></td>").text(result[i]["fieldName"]));
-			tr.append($("<td></td>").text(result[i]["abstractContent"]));
+			tr.append($("<td></td>").append($("<textarea rows='4'></textarea>")).text(result[i]["abstractContent"]));
 			tr.append($("<td></td>").text(result[i]["patentUrl"]));
 			tb.append(tr);
 		}
@@ -81,7 +99,7 @@ $(document).ready(function(){
 </head>
 <body role="document">
 	<!-- Fixed navbar -->
-	<nav class="navbar navbar-default" role="navigation">
+	<nav class="navbar  navbar-inverse " role="navigation">
 	<div class="container">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed"
@@ -91,7 +109,7 @@ $(document).ready(function(){
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#"> 页面数据抓取 </a>
+			<a class="navbar-brand" href="#"> USPTO页面数据抓取 </a>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
@@ -265,12 +283,12 @@ $(document).ready(function(){
 		 <table class="table table-bordered table-striped" id="my_table">
 				<thead>
 					<tr class="txt-center">
-						<th>PAT . NO</th>
-						<th>Title</th>
-						<th>Owner</th>
-						<th>Field Name</th>
-						<th>Abstract</th>
-						<th>URL</th>
+						<th style="width:30px;">PAT.NO</th>
+						<th style="width:100px;">Title</th>
+						<th style="width:30px;">Owner</th>
+						<th style="width:30px;">Field Name</th>
+						<th style="width:200px;">Abstract</th>
+						<th style="width:100px;">URL</th>
 					</tr>
 				</thead>
 				<tbody>

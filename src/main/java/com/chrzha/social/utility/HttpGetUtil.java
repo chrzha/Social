@@ -17,14 +17,14 @@ public class HttpGetUtil {
 					"http");
 			// specify the get request
 			HttpGet getRequest = new HttpGet(para);
-			System.out.println("executing request to " + target);
+			//System.out.println("executing request to " + target);
 			HttpResponse httpResponse = httpclient.execute(target, getRequest);
 			HttpEntity entity = httpResponse.getEntity();
-			System.out.println("----------------------------------------");
-			System.out.println(httpResponse.getStatusLine());
+			//System.out.println("----------------------------------------");
+			//System.out.println(httpResponse.getStatusLine());
 			Header[] headers = httpResponse.getAllHeaders();
 			for (int i = 0; i < headers.length; i++) {
-				System.out.println(headers[i]);
+				//System.out.println(headers[i]);
 			}
 			if (entity != null) {
 				result = EntityUtils.toString(entity) ;
