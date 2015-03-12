@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Crawler</title>
+<title>USPTO页面数据抓取</title>
 
 <script
 	src="${pageContext.request.contextPath}/webresource/js/jquery-1.11.1.min.js"></script>
@@ -18,6 +18,7 @@
 </link>
 <script type="text/javascript">
 $(document).ready(function(){
+	
 	
 	$('#advance_submit').on('click',function(){
 		var _url = "/data/catch/url";
@@ -48,6 +49,7 @@ $(document).ready(function(){
 		var _url = "/data/catch/simpleUrl";
 		var para={};
 		para.url =  $("#myUrl").val();
+		$("#loading_Div").show();
 		$.ajax({
 					type : "GET",
 					url : _url,
@@ -55,18 +57,23 @@ $(document).ready(function(){
 					dataType : "json",
 					success : function(result) {
 						createTable(result);
+						$("#loading_Div").hide();
 					},
 					error : function(result) {
+						$("#loading_Div").hide();
 						alert("error");
 					}
 				});
 		});
-
+	
+	 
 	$("#advance_catch").on('click',function(){
-
+		url_Value = $("#myUrl").val();
 		$("#my_submit").hide();
 		$("#advance_cancle").show();
 		$("#advance_table").show();
+		$("#myUrl").val("http://patft.uspto.gov").attr("readonly",true);
+		 
 
     });
 	$("#advance_cancle").on('click',function(){
@@ -74,6 +81,7 @@ $(document).ready(function(){
 		$("#advance_cancle").hide();
 		$("#my_submit").show();
 		$("#advance_table").hide();
+		$("#myUrl").val("").attr("readonly",false).attr("placeholder","请输入URL");
 
     });
 	
@@ -87,7 +95,7 @@ $(document).ready(function(){
 			tr.append($("<td></td>").text(result[i]["patentName"]));
 			tr.append($("<td></td>").text(result[i]["ownerName"]));
 			tr.append($("<td></td>").text(result[i]["fieldName"]));
-			tr.append($("<td></td>").append($("<textarea rows='4'></textarea>")).text(result[i]["abstractContent"]));
+			tr.append($("<td></td>").text(result[i]["abstractContent"]));
 			tr.append($("<td></td>").text(result[i]["patentUrl"]));
 			tb.append(tr);
 		}
@@ -111,7 +119,7 @@ $(document).ready(function(){
 			</button>
 			<a class="navbar-brand" href="#"> USPTO页面数据抓取 </a>
 		</div>
-		<div id="navbar" class="navbar-collapse collapse">
+		<!-- <div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
 				<li class="active"><a href="#">Home</a></li>
 				<li><a href="#about">About</a></li>
@@ -128,24 +136,23 @@ $(document).ready(function(){
 						<li><a href="#">One more separated link</a></li>
 					</ul></li>
 			</ul>
-		</div>
+		</div> -->
 		<!--/.nav-collapse -->
 	</div>
 	</nav>
-
 	<div id="my-carousel">
-		<div style="margin-left:30%;margin-top:40px;margin-right:30%;">
+		<div style="margin-left:20%;margin-top:40px;margin-right:20%;">
 			<form class="form-inline" role="form" style="margin-left:20%;">
 			   <div class="form-group">
 			      <label for="name">URL</label>
-			      <input type="text" class="form-control" id="myUrl"
+			      <input type="text" class="form-control" id="myUrl" style="width:400px;"
 			         placeholder="请输入URL">
 			   </div>
 			   <button type="button" class="btn btn-default" id="my_submit">提交</button>
-			   <button type="button" class="btn btn-default" id="advance_catch">高级爬取</button>
+			   <button type="button" class="btn btn-default" id="advance_catch">高级爬取</button> 
 			   <button style="display:none" type="button" class="btn btn-default" id="advance_cancle">取消</button>
 			</form>
-			<table style=" margin-top:20px;display:none;" id="advance_table"> 
+			<table style=" margin-top:20px;margin-left:15%;display:none;" id="advance_table"> 
 <tr><td> <STRONG><LABEL For="trm1">Term 1:</LABEL></STRONG><INPUT ID="trm1" TYPE="TEXT" NAME="TERM1" SIZE=25></td>
 <td align=center>in <B><LABEL For="fld1">Field 1:</LABEL></B></td>
 <td>
@@ -279,25 +286,28 @@ $(document).ready(function(){
 <tr><td></td><td></td><td align=right><button type="button" class="btn btn-default" id="advance_submit">提交</button></td></tr>
 </table>
 		</div>
-		<div style="margin-left:10%;margin-top:40px;margin-right:10%;">
+		<div style="margin-left:10%;margin-top:40px;margin-right:10%;height:500px;">
 		 <table class="table table-bordered table-striped" id="my_table">
 				<thead>
 					<tr class="txt-center">
-						<th style="width:30px;">PAT.NO</th>
+						<th style="width:50px;">PAT.NO</th>
 						<th style="width:100px;">Title</th>
-						<th style="width:30px;">Owner</th>
-						<th style="width:30px;">Field Name</th>
-						<th style="width:200px;">Abstract</th>
+						<th style="width:50px;">Owner</th>
+						<th style="width:50px;">Field Name</th>
+						<th style="width:300px;">Abstract</th>
 						<th style="width:100px;">URL</th>
 					</tr>
 				</thead>
 				<tbody>
-					 
 				</tbody>
 			</table>
 		
 		</div>
 	</div>
+<div style="margin-left:45%;display:none" id="loading_Div"><img src="${pageContext.request.contextPath}/webresource/img/loading.gif"></img></div>
+ <footer>
+        <p class="text-center">&copy; 2015 南京理工大学, 孙文静</p>
+      </footer>
 
 </body>
 </html>

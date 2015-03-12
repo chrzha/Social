@@ -53,9 +53,11 @@ public class DataController {
 	    public @ResponseBody
 	    String  LoadSimpleUrlData(@RequestParam(required = false, value = "url") String url) throws Exception {
 		 String endpoint = "patft.uspto.gov";
+		 url = url.substring(22);
+		 System.out.println(url);
 		    String htmlContent = HttpGetUtil.getHtmlContent(endpoint, url);
 		    PatentsInfo patentsInfo  = htmlParserUtil.getPatentInfo(htmlContent);
-		     
+		    patentsInfo.setPatentUrl("http://"+endpoint+url);
 	        return JSONArray.fromObject(patentsInfo).toString();
 	    }
 }

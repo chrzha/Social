@@ -61,31 +61,35 @@ public class HtmlParserUtil {
 				patentsInfo = new PatentsInfo();
 			}
 		}
-		/*
-		 * System.out.println(patentsList.size()); for(PatentsInfo
-		 * patentsInfo2:patentsList){
-		 * System.out.println(patentsInfo2.getPatentNumber
-		 * ()+"-"+patentsInfo2.getPatentName()); }
-		 */
-
 		return resultList;
 	}
 
 	public PatentsInfo getPatentInfo(String content) throws ParserException {
 
 		Parser parser = new Parser(content);
-		 
+
+		//得到摘要部分
 		NodeFilter filter = new TagNameFilter("p");
 		NodeList list = parser.extractAllNodesThatMatch(filter);
 		PatentsInfo patentsInfo = new PatentsInfo();
-			Node node = list.elementAt(0);
-			TextNode textNode = new TextNode("p");
-			textNode.setText(node.toPlainTextString());
-			if ( textNode.getText().trim().length() > 0) {
-				patentsInfo = new PatentsInfo();
-				patentsInfo.setAbstractContent(textNode.getText());
-			}
-			System.out.println(textNode.getText());
+		Node node = list.elementAt(0);
+		TextNode textNode = new TextNode("p");
+		textNode.setText(node.toPlainTextString());
+		if (textNode.getText().trim().length() > 0) {
+			patentsInfo = new PatentsInfo();
+			patentsInfo.setAbstractContent(textNode.getText());
+		}
+		
+		//得到ID
+		Parser parserID = new Parser(content);
+		NodeFilter IDfilter = new TagNameFilter("b");
+		NodeList IDList = parserID.extractAllNodesThatMatch(IDfilter);
+		Node IDNode = IDList.elementAt(0);
+		TextNode textIDNode = new TextNode("b");
+		textIDNode.setText(IDNode.toPlainTextString());
+		if (textIDNode.getText().trim().length() > 0) {
+			patentsInfo.setPatentNumber(textIDNode.getText());
+		}
 		return patentsInfo;
 	}
 
