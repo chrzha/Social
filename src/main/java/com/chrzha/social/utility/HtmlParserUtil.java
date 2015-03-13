@@ -91,7 +91,7 @@ public class HtmlParserUtil {
 			String numString = b.get(1).text();
 				patentsInfo.setPatentNumber(numString);
 		}
-		//得到inventor
+		//得到inventors
 		for (int i = 0; i <b.size(); i++) {
 			 
 			if (b.get(i).outerHtml().toString().contains("<br>")) {
