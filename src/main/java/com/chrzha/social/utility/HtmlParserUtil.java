@@ -19,6 +19,10 @@ import org.htmlparser.tags.LinkTag;
 import org.htmlparser.util.NodeList;
 import org.htmlparser.util.ParserException;
 import org.htmlparser.util.SimpleNodeIterator;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
 import com.chrzha.social.entity.PatentsInfo;
@@ -65,31 +69,38 @@ public class HtmlParserUtil {
 	}
 
 	public PatentsInfo getPatentInfo(String content) throws ParserException {
-
-		Parser parser = new Parser(content);
-
-		//得到摘要部分
-		NodeFilter filter = new TagNameFilter("p");
-		NodeList list = parser.extractAllNodesThatMatch(filter);
 		PatentsInfo patentsInfo = new PatentsInfo();
-		Node node = list.elementAt(0);
-		TextNode textNode = new TextNode("p");
-		textNode.setText(node.toPlainTextString());
-		if (textNode.getText().trim().length() > 0) {
-			patentsInfo = new PatentsInfo();
-			patentsInfo.setAbstractContent(textNode.getText());
+
+		//得到名字
+		Document doc = Jsoup.parse(content);
+		Elements link = doc.select("FONT");
+		for (int i = 0; i < link.size(); i++) {
+			String sizeAttr = link.get(i).attr("size");
+			if (sizeAttr.equals("+1")) {
+				patentsInfo.setPatentName(link.get(i).text().toString());
+			}
 		}
-		
+		//得到摘要部分
+		Elements p = doc.select("p");
+		String abstractContent = p.get(0).text();
+		patentsInfo.setAbstractContent(abstractContent);
+		 
 		//得到ID
-		Parser parserID = new Parser(content);
-		NodeFilter IDfilter = new TagNameFilter("b");
-		NodeList IDList = parserID.extractAllNodesThatMatch(IDfilter);
-		Node IDNode = IDList.elementAt(0);
-		TextNode textIDNode = new TextNode("b");
-		textIDNode.setText(IDNode.toPlainTextString());
-		if (textIDNode.getText().trim().length() > 0) {
-			patentsInfo.setPatentNumber(textIDNode.getText());
+		Elements b = doc.select("b");
+		if (b.size()>2) {
+			String numString = b.get(1).text();
+				patentsInfo.setPatentNumber(numString);
 		}
+		//得到inventor
+		for (int i = 0; i <b.size(); i++) {
+			 
+			if (b.get(i).outerHtml().toString().contains("<br>")) {
+				String inventors = b.get(i).text().toString();
+				patentsInfo.setOwnerName(inventors);
+			}
+		}
+		//得到field
+		
 		return patentsInfo;
 	}
 

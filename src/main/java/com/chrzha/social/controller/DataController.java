@@ -1,7 +1,9 @@
 package com.chrzha.social.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 
 
 import net.sf.json.JSONArray;
@@ -58,6 +60,9 @@ public class DataController {
 		    String htmlContent = HttpGetUtil.getHtmlContent(endpoint, url);
 		    PatentsInfo patentsInfo  = htmlParserUtil.getPatentInfo(htmlContent);
 		    patentsInfo.setPatentUrl("http://"+endpoint+url);
+		    List<PatentsInfo> list = new ArrayList<PatentsInfo>();
+		    list.add(patentsInfo);
+		    dataCatchService.insertPatents(list);
 	        return JSONArray.fromObject(patentsInfo).toString();
 	    }
 }

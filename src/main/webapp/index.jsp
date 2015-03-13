@@ -10,6 +10,8 @@
 	src="${pageContext.request.contextPath}/webresource/js/jquery-1.11.1.min.js"></script>
 <script
 	src="${pageContext.request.contextPath}/webresource/js/bootstrap.min.js"></script>
+	<script
+	src="${pageContext.request.contextPath}/webresource/js/jquery.dataTables.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/webresource/css/bootstrap.min.css">
 </link>
@@ -19,7 +21,20 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	
-	
+	$("#my_table").dataTable({
+			
+			"bPaginate": true, 
+			"bLengthChange": false, 
+			"bFilter": true, 
+			"bSort": true,
+			"bDestroy":true,
+			"bRetrieve":true,
+			"bInfo": true, 
+			"aaSorting": [
+	          [1, "asc" ]
+	         ] 
+	});
+		
 	$('#advance_submit').on('click',function(){
 		var _url = "/data/catch/url";
 		var para={};
@@ -94,7 +109,7 @@ $(document).ready(function(){
 			tr.append($("<td></td>").text(result[i]["patentNumber"]));
 			tr.append($("<td></td>").text(result[i]["patentName"]));
 			tr.append($("<td></td>").text(result[i]["ownerName"]));
-			tr.append($("<td></td>").text(result[i]["fieldName"]));
+			/* tr.append($("<td></td>").text(result[i]["fieldName"])); */
 			tr.append($("<td></td>").text(result[i]["abstractContent"]));
 			tr.append($("<td></td>").text(result[i]["patentUrl"]));
 			tb.append(tr);
@@ -290,12 +305,12 @@ $(document).ready(function(){
 		 <table class="table table-bordered table-striped" id="my_table">
 				<thead>
 					<tr class="txt-center">
-						<th style="width:50px;">PAT.NO</th>
-						<th style="width:100px;">Title</th>
-						<th style="width:50px;">Owner</th>
-						<th style="width:50px;">Field Name</th>
-						<th style="width:300px;">Abstract</th>
-						<th style="width:100px;">URL</th>
+						<th style="width:50px;" class="txt-center">PAT.NO</th>
+						<th style="width:100px;" class="txt-center">Title</th>
+						<th style="width:50px;" class="txt-center">Owner</th>
+						<!-- <th style="width:50px;" class="txt-center">Field Name</th> -->
+						<th style="width:300px;" class="txt-center">Abstract</th>
+						<th style="width:100px;" class="txt-center">URL</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -305,6 +320,7 @@ $(document).ready(function(){
 		</div>
 	</div>
 <div style="margin-left:45%;display:none" id="loading_Div"><img src="${pageContext.request.contextPath}/webresource/img/loading.gif"></img></div>
+<hr>
  <footer>
         <p class="text-center">&copy; 2015 南京理工大学, 孙文静</p>
       </footer>
