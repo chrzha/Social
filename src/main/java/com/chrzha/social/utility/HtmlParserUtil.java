@@ -71,7 +71,7 @@ public class HtmlParserUtil {
 	public PatentsInfo getPatentInfo(String content) throws ParserException {
 		PatentsInfo patentsInfo = new PatentsInfo();
 
-		//得到名字
+		//寰楀埌鍚嶅瓧
 		Document doc = Jsoup.parse(content);
 		Elements link = doc.select("FONT");
 		for (int i = 0; i < link.size(); i++) {
@@ -80,18 +80,18 @@ public class HtmlParserUtil {
 				patentsInfo.setPatentName(link.get(i).text().toString());
 			}
 		}
-		//得到摘要部分
+		//寰楀埌鎽樿閮ㄥ垎
 		Elements p = doc.select("p");
 		String abstractContent = p.get(0).text();
 		patentsInfo.setAbstractContent(abstractContent);
 		 
-		//得到ID
+		//寰楀埌ID99
 		Elements b = doc.select("b");
 		if (b.size()>2) {
 			String numString = b.get(1).text();
 				patentsInfo.setPatentNumber(numString);
 		}
-		//得到inventor
+		//寰楀埌inventor
 		for (int i = 0; i <b.size(); i++) {
 			 
 			if (b.get(i).outerHtml().toString().contains("<br>")) {
@@ -99,7 +99,7 @@ public class HtmlParserUtil {
 				patentsInfo.setOwnerName(inventors);
 			}
 		}
-		//得到field
+		//寰楀埌field
 		
 		return patentsInfo;
 	}
