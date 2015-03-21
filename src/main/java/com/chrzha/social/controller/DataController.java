@@ -42,6 +42,8 @@ public class DataController {
 	    		@RequestParam(required = false, value = "operator") String operator,
 	    		@RequestParam(required = false, value = "term2") String term2,
 	    		@RequestParam(required = false, value = "field2") String field2) throws Exception {
+		 term1 = term1.replace(" ", "+");
+		 term2 = term2.replace(" ", "+");
 		 String endpoint = "patft.uspto.gov";
 		 String urlString = "/netacgi/nph-Parser?"
 		 		+ "Sect1=PTO2&Sect2=HITOFF&p=1&u=%2Fnetahtml%2FPTO%2Fsearch-bool.html&r=0&f=S&l="+Integer.MAX_VALUE+"&TERM1="+term1+"&FIELD1="+field1+"&co1="+operator+"&TERM2="+term2+"&FIELD2="+field2+"&d=PTXT";
@@ -55,6 +57,7 @@ public class DataController {
 		    	patentsInfoList.add(patentsInfo);
 		    	System.out.println(patentsInfo.toString());
 			}
+		    dataCatchService.insertPatents(patentsInfoList);
 	        return JSONArray.fromObject(patentsInfoList).toString();
 	    }
 	 

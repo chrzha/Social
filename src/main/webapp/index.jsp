@@ -37,12 +37,12 @@
 	$(document)
 			.ready(
 					function() {
-						$("#test_btn").on('click', function() {
-
-							showMask();
-
-						})
-
+						
+						$("#go").on('click',function(){
+							$("#jumbotron").hide();
+							$("#search_data").show();
+						});
+						
 						function showMask() {
 							$("#cover").show();
 						}
@@ -59,7 +59,7 @@
 							para.operator = $("#co1").val();
 							para.term2 = $("#trm2").val();
 							para.field2 = $("#fld2").val();
-							showMask()
+							showMask();
 							$.ajax({
 								type : "GET",
 								url : _url,
@@ -70,8 +70,12 @@
 									hideMask();
 								},
 								error : function(result) {
-									alert("error");
-									hideMask()
+									BootstrapDialog.show({
+								    	cssClass : "controller-dialog",
+								    	title : "选择控制人",
+								                message: $('<div></div>').load('controller.view')
+								            });
+									hideMask();
 								}
 							});
 						});
@@ -126,17 +130,19 @@
 							var len = result.length;
 							for (var i = 0; i < len; i++) {
 								var tr = $("<tr></tr>");
-								 
-								tr.append($("<td></td>").text(
+
+								tr.append($("<td  width='5%'></td>").text(
+										result[i]["patentId"]));
+								tr.append($("<td width='6%'></td>").text(
 										result[i]["patentNumber"]));
-								tr.append($("<td ></td>").text(
+								tr.append($("<td width='20%'></td>").text(
 										result[i]["patentName"]));
-								tr.append($("<td ></td>").text(
+								tr.append($("<td width='10%'></td>").text(
 										result[i]["ownerName"]));
 								/* tr.append($("<td></td>").text(result[i]["fieldName"])); */
-								tr.append($("<td  ></td>").text(
+								tr.append($("<td width='40%' ></td>").text(
 										result[i]["abstractContent"]));
-								tr.append($("<td ></td>").text(
+								tr.append($("<td width='19%'></td>").text(
 										result[i]["patentUrl"]));
 								tb.append(tr);
 							}
@@ -180,7 +186,17 @@
 		<!--/.nav-collapse -->
 	</div>
 	</nav>
-	<div id="my-carousel">
+
+ <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron" id="jumbotron">
+      <div class="container">
+        <h1>Hello, world!</h1>
+        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+        <p><a class="btn btn-primary btn-lg" href="#search" role="button" id="go">开始 &raquo;</a></p>
+      </div>
+    </div>
+	 
+	<div id="search_data" style="display:none">
 		<div style="margin-left: 20%; margin-top: 40px; margin-right: 20%;">
 			<form class="form-inline" role="form" style="margin-left: 20%;">
 				<div class="form-group">
@@ -190,7 +206,6 @@
 				</div>
 				<button type="button" class="btn btn-default" id="my_submit">提交</button>
 				<button type="button" class="btn btn-default" id="advance_catch">高级爬取</button>
-				<button type="button" class="btn btn-default" id="test_btn">测试</button>
 				<button style="display: none" type="button" class="btn btn-default"
 					id="advance_cancle">取消</button>
 			</form>
@@ -345,15 +360,15 @@
 		</div>
 		<div
 			style="margin-left: 10%; margin-top: 40px; margin-right: 10%; height: 500px;">
-			<table class="table table-bordered table-striped" style="width:100%;" id="my_table">
+			<table class="table table-bordered" id="my_table">
 				<thead>
 					<tr class="txt-center">
-						<th style="width: 50px;" class="txt-center">专利编号</th>
-						<th style="width: 100px;" class="txt-center">名称</th>
-						<th style="width: 50px;" class="txt-center">发明人</th>
-						<!-- <th style="width:50px;" class="txt-center">Field Name</th> -->
-						<th style="width: 300px;" class="txt-center">摘要</th>
-						<th style="width: 100px;" class="txt-center">链接</th>
+						<th width="5%" class="txt-center">编号</th>
+						<th width="6%" class="txt-center">专利号</th>
+						<th width="20%" class="txt-center">名称</th>
+						<th width="10%" class="txt-center">发明人</th>
+						<th width="40%" class="txt-center">摘要</th>
+						<th width="19%" class="txt-center">链接</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -363,7 +378,7 @@
 		</div>
 	</div>
 	<div id="cover" class="cover">
-		<h1 style="margin-left: 30%; margin-top: 25%;">正在很努力地努力去爬，请稍后......</h1>
+		<h1 style="margin-left: 30%; margin-top: 25%;">正在玩命加载，请稍后......</h1>
 		<%-- <img style="margin-top:20%;margin-left:50%;"
 			src="${pageContext.request.contextPath}/webresource/img/loading.gif"></img>  --%>
 	</div>
