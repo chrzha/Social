@@ -37,6 +37,34 @@
 	$(document)
 			.ready(
 					function() {
+					//获取搜索历史的记录下拉框数据
+						$.ajax({
+							type : "GET",
+							url : "/data/version",
+							dataType : "json",
+							success : function(result) {
+								var len = result.length;
+								var _slt = $("#version_select");
+								for(var i=0;i<len;i++){
+									_slt.append($("<option val='"+result[i]+"'>"+result[i]+"</option>"));
+								}
+							},
+							error : function(result) {
+								alert("error!");
+							}
+						});
+					//获取所有搜索过的数据
+						$.ajax({
+							type : "GET",
+							url : "/data/allData",
+							dataType : "json",
+							success : function(result) {
+								createTable(result);
+							},
+							error : function(result) {
+								alert("error!");
+							}
+						});
 						
 						$("#go").on('click',function(){
 							$("#jumbotron").hide();
@@ -49,10 +77,10 @@
 						function hideMask() {
 							$("#cover").hide();
 						}
+						//高级搜索提交
 						$('#advance_submit').on('click', function() {
 							var _url = "/data/catch/url";
 							var para = {};
-
 							para.url = $("#myUrl").val();
 							para.term1 = $("#trm1").val();
 							para.field1 = $("#fld1").val();
@@ -80,6 +108,7 @@
 							});
 						});
 
+						//简单查询提交
 						$('#my_submit').on('click', function() {
 							var _url = "/data/catch/simpleUrl";
 							var para = {};
@@ -124,6 +153,43 @@
 
 								});
 
+						//切换下拉框，显示不同的结果
+						$("#version_select").change(function(){
+						    var version = $(this).children('option:selected').val(); 
+						    var _url = "/data/getDataByVersion?version="+version;
+						    if(version==="所有记录"){
+						    	_url = "/data/allData";
+						    }
+						    $.ajax({
+								type : "GET",
+								url :_url,
+								dataType : "json",
+								success : function(result) {
+									createTable(result);
+								},
+								error : function(result) {
+									alert("error!");
+								}
+							});
+							
+						});
+						
+						$("#download_btn").click(function(){
+							
+						    var _url = "/data/download?fileName=patent";
+						    $.ajax({
+								type : "GET",
+								url :_url,
+								success : function(result) {
+									alert("success");
+								},
+								error : function(result) {
+									alert("error!");
+								}
+							});
+						});
+						
+						//动态生成数据表格
 						function createTable(result) {
 							var tb = $("#my_table tbody");
 							tb.empty();
@@ -131,18 +197,16 @@
 							for (var i = 0; i < len; i++) {
 								var tr = $("<tr></tr>");
 
-								tr.append($("<td  width='5%'></td>").text(
-										result[i]["patentId"]));
-								tr.append($("<td width='6%'></td>").text(
+								tr.append($("<td></td>").text(i+1));
+								tr.append($("<td></td>").text(
 										result[i]["patentNumber"]));
-								tr.append($("<td width='20%'></td>").text(
+								tr.append($("<td></td>").text(
 										result[i]["patentName"]));
-								tr.append($("<td width='10%'></td>").text(
+								tr.append($("<td></td>").text(
 										result[i]["ownerName"]));
-								/* tr.append($("<td></td>").text(result[i]["fieldName"])); */
-								tr.append($("<td width='40%' ></td>").text(
+								tr.append($("<td></td>").text(
 										result[i]["abstractContent"]));
-								tr.append($("<td width='19%'></td>").text(
+								tr.append($("<td></td>").text(
 										result[i]["patentUrl"]));
 								tb.append(tr);
 							}
@@ -165,24 +229,18 @@
 			</button>
 			<a class="navbar-brand" href="#"> USPTO页面数据抓取 </a>
 		</div>
-		<!-- <div id="navbar" class="navbar-collapse collapse">
+		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="#">Home</a></li>
-				<li><a href="#about">About</a></li>
-				<li><a href="#contact">Contact</a></li>
-				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+				<li class="active"><a href="#">USPTO.GOV</a></li>
+				<li class="dropdown active"><a href="#" class="dropdown-toggle"
+					data-toggle="dropdown">系统菜单 <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
-						<li><a href="#">Action</a></li>
-						<li><a href="#">Another action</a></li>
-						<li><a href="#">Something else here</a></li>
+						<li><a href="#">数据备份</a></li>
 						<li class="divider"></li>
-						<li class="dropdown-header">Nav header</li>
-						<li><a href="#">Separated link</a></li>
-						<li><a href="#">One more separated link</a></li>
+						<li><a href="#">清空所有记录</a></li>
 					</ul></li>
 			</ul>
-		</div> -->
+		</div>
 		<!--/.nav-collapse -->
 	</div>
 	</nav>
@@ -197,7 +255,7 @@
     </div>
 	 
 	<div id="search_data" style="display:none">
-		<div style="margin-left: 20%; margin-top: 40px; margin-right: 20%;">
+		<div style="margin-left: 10%; margin-top: 40px; margin-right: 20%;">
 			<form class="form-inline" role="form" style="margin-left: 20%;">
 				<div class="form-group">
 					<label for="name">URL</label> <input type="text"
@@ -358,22 +416,35 @@
 				</tr>
 			</table>
 		</div>
-		<div
-			style="margin-left: 10%; margin-top: 40px; margin-right: 10%; height: 500px;">
-			<table class="table table-bordered" id="my_table">
-				<thead>
-					<tr class="txt-center">
-						<th width="5%" class="txt-center">编号</th>
-						<th width="6%" class="txt-center">专利号</th>
-						<th width="20%" class="txt-center">名称</th>
-						<th width="10%" class="txt-center">发明人</th>
-						<th width="40%" class="txt-center">摘要</th>
-						<th width="19%" class="txt-center">链接</th>
-					</tr>
-				</thead>
-				<tbody>
-				</tbody>
-			</table>
+		<div style="margin-top:40px; height: 500px;">
+			<div id="version">
+			<div style="float:right;margin-left:5px;">
+			  <button type="button" class="btn btn-danger" style="margin-right:5px;">删除该组数据</button>
+			</div>
+			<div style="float:right;margin-left:5px;">
+			  <button type="button" class="btn btn-success" style="margin-right:5px;" id="download_btn">下载到Excel</button>
+			</div>
+			<div style="width:200px;float:right;">
+				<select id="version_select" class="form-control" style="width:200px;">
+			   </select>
+			</div>
+			</div>
+			<div>
+				<table class="table table-bordered" id="my_table">
+					<thead>
+						<tr class="txt-center">
+							<th class="txt-center">编号</th>
+							<th class="txt-center">专利号</th>
+							<th class="txt-center">名称</th>
+							<th class="txt-center">发明人</th>
+							<th class="txt-center">摘要</th>
+							<th class="txt-center">链接</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
 
 		</div>
 	</div>

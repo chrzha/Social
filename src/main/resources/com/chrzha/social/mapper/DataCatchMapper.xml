@@ -22,5 +22,18 @@
 		 (#{item.patentNumber},#{item.patentName},#{item.ownerName},#{item.assigneeName},#{item.patentUrl},#{item.fieldName},#{item.abstractContent})
 		 </foreach>
 	</insert>
-	 
+
+	<insert id="insertPatent">
+		insert into uspto_patent_info (patent_number,patent_name,owner_name,assignee_name,patent_url,field_name,patent_abstract) values
+		 (#{patentNumber},#{patentName},#{ownerName},#{assigneeName},#{patentUrl},#{fieldName},#{abstractContent})
+	</insert>
+	<select id="getPatentsByVersion" resultMap="BaseResultMap">
+	      select * from uspto_patent_info where version=#{version}
+	</select>
+    <delete id="deleteAllPatents">
+	   delete from uspto_patent_info
+	</delete>
+	<select id="getVersions" resultType="java.lang.String">
+	   select distinct version from uspto_patent_info
+	</select>
 </mapper>

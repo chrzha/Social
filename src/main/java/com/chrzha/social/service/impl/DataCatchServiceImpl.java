@@ -27,4 +27,34 @@ public class DataCatchServiceImpl implements DataCatchService{
 		return dataCatchMapper.getPatents();
 	}
 
+	@Override
+	public boolean insertPatent(PatentsInfo patentsInfo) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<PatentsInfo> getPatentsByVersion(String version) {
+		// TODO Auto-generated method stub
+		return dataCatchMapper.getPatentsByVersion(version);
+	}
+
+	@Override
+	public void deleteAllPatents() {
+		// TODO Auto-generated method stub
+		dataCatchMapper.deleteAllPatents();
+	}
+
+	@Override
+	public List<String> getVersions() {
+		// TODO Auto-generated method stub
+		return dataCatchMapper.getVersions();
+	}
+
+	@Override
+	public void deletePatentsByVersion(String version) {
+		// TODO Auto-generated method stub
+		dataCatchMapper.deletePatentsByVersion(version);
+	}
+
 }
