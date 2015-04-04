@@ -1,8 +1,12 @@
 package com.chrzha.social.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+
+
 
 
 
@@ -50,14 +54,16 @@ public class DataController {
 		    String htmlContent = HttpGetUtil.getHtmlContent(endpoint, urlString);
 		    List<String> urlList = htmlParserUtil.getPatentsURL(htmlContent);
 		    List<PatentsInfo> patentsInfoList = new ArrayList<PatentsInfo>();
+		    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd:hh:mm:ss");
+		    String excuteDate = sdf.format(new Date());
 		    for (int i = 0; i < urlList.size(); i++) {
 		    	String perHtmlContent = HttpGetUtil.getHtmlContent(endpoint, urlList.get(i));
 		    	PatentsInfo patentsInfo  = htmlParserUtil.getPatentInfo("http://"+endpoint+urlList.get(i),perHtmlContent);
 		    	patentsInfo.setPatentId(i+1);
+		    	patentsInfo.setVersion(field1+"="+term1+operator+field2+"="+term2+"["+excuteDate+"]");
+		    	dataCatchService.insertPatent(patentsInfo);
 		    	patentsInfoList.add(patentsInfo);
-		    	System.out.println(patentsInfo.toString());
-			}
-		    dataCatchService.insertPatents(patentsInfoList);
+		    }
 	        return JSONArray.fromObject(patentsInfoList).toString();
 	    }
 	 

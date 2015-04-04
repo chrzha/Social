@@ -30,7 +30,8 @@ public class DataCatchServiceImpl implements DataCatchService{
 	@Override
 	public boolean insertPatent(PatentsInfo patentsInfo) {
 		// TODO Auto-generated method stub
-		return false;
+		
+		return dataCatchMapper.insertPatent(patentsInfo)>0?true:false;
 	}
 
 	@Override

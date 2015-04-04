@@ -37,16 +37,21 @@ public class DisplayController {
 		return JSONArray.fromObject(patentsInfoList).toString();
 	}
 	
-	@RequestMapping(value = "/deleteDataByVersion", method = RequestMethod.GET)
+	@RequestMapping(value = "/deleteDataByVersion", method = RequestMethod.DELETE)
 	@ResponseBody
 	public String deleteDataByVersion(@RequestParam("version") String version) {
 
 		dataCatchService.deletePatentsByVersion(version);
 		return "success";
 	}
-
 	
 	
+	@RequestMapping(value = "/deleteAllData", method = RequestMethod.DELETE)
+	@ResponseBody
+	public String deleteAllData() {
+		dataCatchService.deleteAllPatents();
+		return "success";
+	}
 	
 	@RequestMapping(value = "/getDataByVersion", method = RequestMethod.GET)
 	@ResponseBody

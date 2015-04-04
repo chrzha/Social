@@ -38,6 +38,8 @@
 			.ready(
 					function() {
 					//获取搜索历史的记录下拉框数据
+				    createSelete();
+					function createSelete(){
 						$.ajax({
 							type : "GET",
 							url : "/data/version",
@@ -45,7 +47,8 @@
 							success : function(result) {
 								var len = result.length;
 								var _slt = $("#version_select");
-								for(var i=0;i<len;i++){
+								$("#version_select").empty();
+								for(var i=len-1;i>=0;i--){
 									_slt.append($("<option val='"+result[i]+"'>"+result[i]+"</option>"));
 								}
 							},
@@ -53,6 +56,7 @@
 								alert("error!");
 							}
 						});
+					}
 					//获取所有搜索过的数据
 						$.ajax({
 							type : "GET",
@@ -94,15 +98,12 @@
 								data : para,
 								dataType : "json",
 								success : function(result) {
+									createSelete()
 									createTable(result);
 									hideMask();
 								},
 								error : function(result) {
-									BootstrapDialog.show({
-								    	cssClass : "controller-dialog",
-								    	title : "选择控制人",
-								                message: $('<div></div>').load('controller.view')
-								            });
+									alert("error");
 									hideMask();
 								}
 							});
@@ -173,12 +174,30 @@
 							});
 							
 						});
-						
+						//下载到excel
 						$("#download_btn").click(function(){
 							
 						    var _url = "/data/download?fileName=patent";
 						    $.ajax({
 								type : "GET",
+								url :_url,
+								success : function(result) {
+									alert("success");
+								},
+								error : function(result) {
+									alert("error!");
+								}
+							});
+						});
+						//删除指定的version记录
+						$("#delete_btn").click(function(){
+							var version = $("#version_select").children('option:selected').val()
+						    var _url = "/data/deleteDataByVersion?version="+version;
+							 if(version==="所有记录"){
+							    	_url = "/data/deleteAllData";
+							  }
+						    $.ajax({
+								type : "DELETE",
 								url :_url,
 								success : function(result) {
 									alert("success");
@@ -231,11 +250,12 @@
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="#">USPTO.GOV</a></li>
+				<li class="active"><a href="http://www.uspto.gov/">USPTO.GOV</a></li>
 				<li class="dropdown active"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown">系统菜单 <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
 						<li><a href="#">数据备份</a></li>
+						<li><a href="#">数据还原</a></li>
 						<li class="divider"></li>
 						<li><a href="#">清空所有记录</a></li>
 					</ul></li>
@@ -419,7 +439,7 @@
 		<div style="margin-top:40px; height: 500px;">
 			<div id="version">
 			<div style="float:right;margin-left:5px;">
-			  <button type="button" class="btn btn-danger" style="margin-right:5px;">删除该组数据</button>
+			  <button type="button" class="btn btn-danger" style="margin-right:5px;" id="delete_btn">删除该组数据</button>
 			</div>
 			<div style="float:right;margin-left:5px;">
 			  <button type="button" class="btn btn-success" style="margin-right:5px;" id="download_btn">下载到Excel</button>

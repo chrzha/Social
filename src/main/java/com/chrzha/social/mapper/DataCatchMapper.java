@@ -10,7 +10,7 @@ public interface DataCatchMapper {
 
 	public Integer insertPatents(List<PatentsInfo> list);
 	public List<PatentsInfo> getPatents();
-	public boolean insertPatent(PatentsInfo patentsInfo);
+	public Integer insertPatent(PatentsInfo patentsInfo);
 	public List<PatentsInfo> getPatentsByVersion(@Param("version")String version);
     public void deleteAllPatents();
     public void deletePatentsByVersion(@Param("version")String version);

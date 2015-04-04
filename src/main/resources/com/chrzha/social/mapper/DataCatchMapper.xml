@@ -10,6 +10,7 @@
 		<result column="patent_url" jdbcType="VARCHAR" property="patentUrl" />
 		<result column="field_name" jdbcType="VARCHAR" property="fieldName" />
 		<result column="patent_abstract" jdbcType="VARCHAR" property="abstractContent" />
+		<result column="version" jdbcType="VARCHAR" property="version" />
 	</resultMap>
 	 
 	<select id="getPatents" resultMap="BaseResultMap"  >
@@ -17,21 +18,24 @@
 	</select>
 	
 	<insert id="insertPatents">
-		insert into uspto_patent_info (patent_number,patent_name,owner_name,assignee_name,patent_url,field_name,patent_abstract) values
+		insert into uspto_patent_info (patent_number,patent_name,owner_name,patent_url,patent_abstract,version) values
 		<foreach collection="list" item="item" index="index" separator="," >
-		 (#{item.patentNumber},#{item.patentName},#{item.ownerName},#{item.assigneeName},#{item.patentUrl},#{item.fieldName},#{item.abstractContent})
+		 (#{item.patentNumber},#{item.patentName},#{item.ownerName},#{item.patentUrl},#{item.abstractContent},#{item.version})
 		 </foreach>
 	</insert>
 
 	<insert id="insertPatent">
-		insert into uspto_patent_info (patent_number,patent_name,owner_name,assignee_name,patent_url,field_name,patent_abstract) values
-		 (#{patentNumber},#{patentName},#{ownerName},#{assigneeName},#{patentUrl},#{fieldName},#{abstractContent})
+		insert into uspto_patent_info (patent_number,patent_name,owner_name,patent_url,patent_abstract,version) values
+		 (#{patentNumber},#{patentName},#{ownerName},#{patentUrl},#{abstractContent},#{version})
 	</insert>
 	<select id="getPatentsByVersion" resultMap="BaseResultMap">
 	      select * from uspto_patent_info where version=#{version}
 	</select>
     <delete id="deleteAllPatents">
 	   delete from uspto_patent_info
+	</delete>
+    <delete id="deletePatentsByVersion">
+	   delete from uspto_patent_info where version=#{version}
 	</delete>
 	<select id="getVersions" resultType="java.lang.String">
 	   select distinct version from uspto_patent_info

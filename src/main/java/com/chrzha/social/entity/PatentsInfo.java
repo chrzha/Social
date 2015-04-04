@@ -6,41 +6,19 @@ public class PatentsInfo {
 	private String patentNumber;
 	private String patentName;
 	private String ownerName;
-	private String assigneeName;
 	private String patentUrl;
-	private String fieldName;
 	private String abstractContent;
+	private String version;
 	
+	
+	public String getVersion() {
+		return version;
+	}
+	public void setVersion(String version) {
+		this.version = version;
+	}
 	public  PatentsInfo() {
 		
-	}
-	public PatentsInfo(String patentUrl, String patentNumber,
-			Integer patentId, String patentName, String ownerName,
-			String assigneeName, String fieldName, String abstractContent) {
-		this.patentUrl = patentUrl;
-		this.patentNumber = patentNumber;
-		this.patentId = patentId;
-		this.patentName = patentName;
-		this.ownerName = ownerName;
-		this.assigneeName = assigneeName;
-		this.fieldName = fieldName;
-		this.abstractContent = abstractContent;
-	}
-	@Override
-	public String toString() {
-		return "PatentsInfo [patentUrl=" + patentUrl + ", patentNumber="
-				+ patentNumber + ", patentId=" + patentId + ", patentName="
-				+ patentName + ", ownerName=" + ownerName + ", assigneeName="
-				+ assigneeName + ", fieldName=" + fieldName
-				+ ", abstractContent=" + abstractContent + ", getPatentUrl()="
-				+ getPatentUrl() + ", getPatentNumber()=" + getPatentNumber()
-				+ ", getPatentId()=" + getPatentId() + ", getPatentName()="
-				+ getPatentName() + ", getOwnerName()=" + getOwnerName()
-				+ ", getAssigneeName()=" + getAssigneeName()
-				+ ", getFieldName()=" + getFieldName()
-				+ ", getAbstractContent()=" + getAbstractContent()
-				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
-				+ ", toString()=" + super.toString() + "]";
 	}
 	public String getPatentUrl() {
 		return patentUrl;
@@ -71,18 +49,6 @@ public class PatentsInfo {
 	}
 	public void setOwnerName(String ownerName) {
 		this.ownerName = ownerName;
-	}
-	public String getAssigneeName() {
-		return assigneeName;
-	}
-	public void setAssigneeName(String assigneeName) {
-		this.assigneeName = assigneeName;
-	}
-	public String getFieldName() {
-		return fieldName;
-	}
-	public void setFieldName(String fieldName) {
-		this.fieldName = fieldName;
 	}
 	public String getAbstractContent() {
 		return abstractContent;

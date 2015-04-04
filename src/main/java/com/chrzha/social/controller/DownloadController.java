@@ -47,6 +47,7 @@ public class DownloadController {
 		sheet.setColumnWidth((short)3, (short)300);
 		sheet.setColumnWidth((short)4, (short)600);
 		sheet.setColumnWidth((short)5, (short)400);
+		sheet.setColumnWidth((short)6, (short)200);
 		// 创建一行
 		HSSFRow rowTitle = sheet.createRow(0);
 
@@ -86,6 +87,9 @@ public class DownloadController {
 		cellTitle.setCellValue("超链接");
 		cellTitle.setCellStyle(styleTitle);
 		
+		cellTitle = rowTitle.createCell(6);
+		cellTitle.setCellValue("备注");
+		cellTitle.setCellStyle(styleTitle);
 
 		HSSFCellStyle styleCenter = wb.createCellStyle();
 		styleCenter.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 居中
@@ -119,6 +123,10 @@ public class DownloadController {
 			
 			cell = row.createCell(5);
 			cell.setCellValue(item.getPatentUrl());
+			cell.setCellStyle(styleCenter);
+
+			cell = row.createCell(6);
+			cell.setCellValue(item.getVersion());
 			cell.setCellStyle(styleCenter);
 		}
 
