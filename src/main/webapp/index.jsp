@@ -250,7 +250,6 @@
 							var len = result.length;
 							for (var i = 0; i < len; i++) {
 								var tr = $("<tr></tr>");
-
 								tr.append($("<td></td>").text(i + 1));
 								tr.append($("<td></td>").text(
 										result[i]["patentNumber"]));
@@ -258,8 +257,8 @@
 										result[i]["patentName"]));
 								tr.append($("<td></td>").text(
 										result[i]["ownerName"]));
-								tr.append($("<td></td>").text(
-										result[i]["abstractContent"]));
+								tr.append($("<td title='"+result[i]["abstractContent"]+"'></td>").text(
+										result[i]["abstractContent"].substring(0,100)+"..."));
 								tr.append($("<td></td>").text(
 										result[i]["patentUrl"]));
 								tb.append(tr);

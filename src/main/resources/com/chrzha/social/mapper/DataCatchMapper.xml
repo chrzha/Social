@@ -14,7 +14,7 @@
 	</resultMap>
 	 
 	<select id="getPatents" resultMap="BaseResultMap"  >
-		 select * from uspto_patent_info
+		 select * from uspto_patent_info order by patent_number
 	</select>
 	
 	<insert id="insertPatents">
@@ -29,7 +29,7 @@
 		 (#{patentNumber},#{patentName},#{ownerName},#{patentUrl},#{abstractContent},#{version})
 	</insert>
 	<select id="getPatentsByVersion" resultMap="BaseResultMap">
-	      select * from uspto_patent_info where version=#{version}
+	      select * from uspto_patent_info where version=#{version} order by patent_number
 	</select>
     <delete id="deleteAllPatents">
 	   delete from uspto_patent_info

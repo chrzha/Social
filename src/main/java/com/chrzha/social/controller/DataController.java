@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.sf.json.JSONArray;
 
@@ -51,11 +52,13 @@ public class DataController {
 				+ "&co1=" + operator + "&TERM2=" + term2 + "&FIELD2=" + field2
 				+ "&d=PTXT";
 		String htmlContent = HttpGetUtil.getHtmlContent(endpoint, urlString);
-		List<String> urlList = htmlParserUtil.getPatentsURL(htmlContent);
+		Map<String, Object> urlMap = htmlParserUtil.getPatentsURL(htmlContent,new HashMap<String, Object>()); 
+		List<String> urlList = htmlParserUtil.mapToList(urlMap);
 		List<PatentsInfo> patentsInfoList = new ArrayList<PatentsInfo>();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd:hh:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd:HH:mm:ss");
 		String excuteDate = sdf.format(new Date());
 		for (int i = 0; i < urlList.size(); i++) {
+			System.out.println(urlList.get(i));
 			String perHtmlContent = HttpGetUtil.getHtmlContent(endpoint,
 					urlList.get(i));
 			PatentsInfo patentsInfo = htmlParserUtil.getPatentInfo("http://"
@@ -75,7 +78,7 @@ public class DataController {
 			throws Exception {
 		String endpoint = "patft.uspto.gov";
 		url = url.substring(22);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd:hh:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd:HH:mm:ss");
 		String excuteDate = sdf.format(new Date());
 		String htmlContent = HttpGetUtil.getHtmlContent(endpoint, url);
 		PatentsInfo patentsInfo = htmlParserUtil.getPatentInfo("http://"
