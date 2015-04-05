@@ -37,44 +37,65 @@
 	$(document)
 			.ready(
 					function() {
-					//获取搜索历史的记录下拉框数据
-				    createSelete();
-					function createSelete(){
+						//获取搜索历史的记录下拉框数据
+						createSelete();
+						function createSelete() {
+							$
+									.ajax({
+										type : "GET",
+										url : "/data/version",
+										dataType : "json",
+										success : function(result) {
+											var len = result.length;
+											var _slt = $("#version_select");
+											$("#version_select").empty();
+											for (var i = len - 1; i >= 0; i--) {
+												_slt
+														.append($("<option val='"+result[i]+"'>"
+																+ result[i]
+																+ "</option>"));
+											}
+										},
+										error : function(result) {
+											alert("error!");
+										}
+									});
+						}
+
+						//页面初始化时，获取最近一次搜索过的数据
 						$.ajax({
 							type : "GET",
 							url : "/data/version",
 							dataType : "json",
 							success : function(result) {
 								var len = result.length;
-								var _slt = $("#version_select");
-								$("#version_select").empty();
-								for(var i=len-1;i>=0;i--){
-									_slt.append($("<option val='"+result[i]+"'>"+result[i]+"</option>"));
+								var _url = "/data/getAllData";
+								if (len > 0) {
+									_url = "/data/getDataByVersion?version="
+											+ result[len - 1];
 								}
+								$.ajax({
+									type : "GET",
+									url : _url,
+									dataType : "json",
+									success : function(result) {
+										createTable(result);
+									},
+									error : function(result) {
+										alert("error!");
+									}
+								});
 							},
 							error : function(result) {
 								alert("error!");
 							}
 						});
-					}
-					//获取所有搜索过的数据
-						$.ajax({
-							type : "GET",
-							url : "/data/allData",
-							dataType : "json",
-							success : function(result) {
-								createTable(result);
-							},
-							error : function(result) {
-								alert("error!");
-							}
-						});
-						
-						$("#go").on('click',function(){
+
+						$("#go").on('click', function() {
 							$("#jumbotron").hide();
 							$("#search_data").show();
 						});
-						
+
 						function showMask() {
 							$("#cover").show();
 						}
@@ -98,7 +119,7 @@
 								data : para,
 								dataType : "json",
 								success : function(result) {
-									createSelete()
+									createSelete();
 									createTable(result);
 									hideMask();
 								},
@@ -121,6 +142,7 @@
 								data : para,
 								dataType : "json",
 								success : function(result) {
+									createSelete();
 									createTable(result);
 									hideMask();
 								},
@@ -155,32 +177,36 @@
 								});
 
 						//切换下拉框，显示不同的结果
-						$("#version_select").change(function(){
-						    var version = $(this).children('option:selected').val(); 
-						    var _url = "/data/getDataByVersion?version="+version;
-						    if(version==="所有记录"){
-						    	_url = "/data/allData";
-						    }
-						    $.ajax({
-								type : "GET",
-								url :_url,
-								dataType : "json",
-								success : function(result) {
-									createTable(result);
-								},
-								error : function(result) {
-									alert("error!");
-								}
-							});
-							
-						});
+						$("#version_select")
+								.change(
+										function() {
+											var version = $(this).children(
+													'option:selected').val();
+											var _url = "/data/getDataByVersion?version="
+													+ version;
+											if (version === "所有记录") {
+												_url = "/data/allData";
+											}
+											$.ajax({
+												type : "GET",
+												url : _url,
+												dataType : "json",
+												success : function(result) {
+													createTable(result);
+												},
+												error : function(result) {
+													alert("error!");
+												}
+											});
+
+										});
 						//下载到excel
-						$("#download_btn").click(function(){
-							
-						    var _url = "/data/download?fileName=patent";
-						    $.ajax({
+						$("#download_btn").click(function() {
+
+							var _url = "/data/download?fileName=patent";
+							$.ajax({
 								type : "GET",
-								url :_url,
+								url : _url,
 								success : function(result) {
 									alert("success");
 								},
@@ -190,24 +216,33 @@
 							});
 						});
 						//删除指定的version记录
-						$("#delete_btn").click(function(){
-							var version = $("#version_select").children('option:selected').val()
-						    var _url = "/data/deleteDataByVersion?version="+version;
-							 if(version==="所有记录"){
-							    	_url = "/data/deleteAllData";
-							  }
-						    $.ajax({
-								type : "DELETE",
-								url :_url,
-								success : function(result) {
-									alert("success");
-								},
-								error : function(result) {
-									alert("error!");
-								}
-							});
-						});
-						
+						$("#delete_btn")
+								.click(
+										function() {
+
+											var version = $("#version_select")
+													.children('option:selected')
+													.val()
+											var _url = "/data/deleteDataByVersion?version="
+													+ version;
+											if (version === "所有记录") {
+												_url = "/data/deleteAllData";
+											}
+											if (confirm("确定要删除该组数据吗？")) {
+												$.ajax({
+													type : "DELETE",
+													url : _url,
+													success : function(result) {
+														alert("success");
+													},
+													error : function(result) {
+														alert("error!");
+													}
+												});
+											}
+
+										});
+
 						//动态生成数据表格
 						function createTable(result) {
 							var tb = $("#my_table tbody");
@@ -216,7 +251,7 @@
 							for (var i = 0; i < len; i++) {
 								var tr = $("<tr></tr>");
 
-								tr.append($("<td></td>").text(i+1));
+								tr.append($("<td></td>").text(i + 1));
 								tr.append($("<td></td>").text(
 										result[i]["patentNumber"]));
 								tr.append($("<td></td>").text(
@@ -265,16 +300,22 @@
 	</div>
 	</nav>
 
- <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron" id="jumbotron">
-      <div class="container">
-        <h1>Hello, world!</h1>
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-        <p><a class="btn btn-primary btn-lg" href="#search" role="button" id="go">开始 &raquo;</a></p>
-      </div>
-    </div>
-	 
-	<div id="search_data" style="display:none">
+	<!-- Main jumbotron for a primary marketing message or call to action -->
+	<div class="jumbotron" id="jumbotron">
+		<div class="container">
+			<h1>Hello, world!</h1>
+			<p>This is a template for a simple marketing or informational
+				website. It includes a large callout called a jumbotron and three
+				supporting pieces of content. Use it as a starting point to create
+				something more unique.</p>
+			<p>
+				<a class="btn btn-primary btn-lg" href="#search" role="button"
+					id="go">开始 &raquo;</a>
+			</p>
+		</div>
+	</div>
+
+	<div id="search_data" style="display: none">
 		<div style="margin-left: 10%; margin-top: 40px; margin-right: 20%;">
 			<form class="form-inline" role="form" style="margin-left: 20%;">
 				<div class="form-group">
@@ -286,6 +327,8 @@
 				<button type="button" class="btn btn-default" id="advance_catch">高级爬取</button>
 				<button style="display: none" type="button" class="btn btn-default"
 					id="advance_cancle">取消</button>
+				<button style="display: none" type="button" id="init_btn">init</button>
+
 			</form>
 			<table style="margin-top: 20px; margin-left: 15%; display: none;"
 				id="advance_table">
@@ -436,29 +479,32 @@
 				</tr>
 			</table>
 		</div>
-		<div style="margin-top:40px; height: 500px;">
+		<div style="margin-top: 40px; height: 500px;">
 			<div id="version">
-			<div style="float:right;margin-left:5px;">
-			  <button type="button" class="btn btn-danger" style="margin-right:5px;" id="delete_btn">删除该组数据</button>
-			</div>
-			<div style="float:right;margin-left:5px;">
-			  <button type="button" class="btn btn-success" style="margin-right:5px;" id="download_btn">下载到Excel</button>
-			</div>
-			<div style="width:200px;float:right;">
-				<select id="version_select" class="form-control" style="width:200px;">
-			   </select>
-			</div>
+				<div style="float: right; margin-left: 5px;">
+					<button type="button" class="btn btn-danger"
+						style="margin-right: 5px;" id="delete_btn">删除该组数据</button>
+				</div>
+				<div style="float: right; margin-left: 5px;">
+					<button type="button" class="btn btn-success"
+						style="margin-right: 5px;" id="download_btn">下载到Excel</button>
+				</div>
+				<div style="width: 200px; float: right;">
+					<select id="version_select" class="form-control"
+						style="width: 200px;">
+					</select>
+				</div>
 			</div>
 			<div>
 				<table class="table table-bordered" id="my_table">
 					<thead>
 						<tr class="txt-center">
-							<th class="txt-center">编号</th>
-							<th class="txt-center">专利号</th>
-							<th class="txt-center">名称</th>
-							<th class="txt-center">发明人</th>
-							<th class="txt-center">摘要</th>
-							<th class="txt-center">链接</th>
+							<th class="txt-center">RECORD</th>
+							<th class="txt-center">Patent Number</th>
+							<th class="txt-center">Title</th>
+							<th class="txt-center">Inventor Name</th>
+							<th class="txt-center">Abstract</th>
+							<th class="txt-center">URL</th>
 						</tr>
 					</thead>
 					<tbody>

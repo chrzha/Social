@@ -21,7 +21,7 @@ public class HtmlParserUtil {
 
 	public List<String> getPatentsURL(String content) {
 		List<String> resultList = new ArrayList<String>();
-		//得到名字
+		//得到名字-Title
 		Document doc = Jsoup.parse(content);
 		Elements link = doc.select("a");
 		Map<String, Object> urlMap = new LinkedHashMap<String, Object>();
@@ -42,9 +42,15 @@ public class HtmlParserUtil {
 	public PatentsInfo getPatentInfo(String urlString ,String content) {
 		PatentsInfo patentsInfo = new PatentsInfo();
 		patentsInfo.setPatentUrl(urlString);
-
-		//得到名字
 		Document doc = Jsoup.parse(content);
+		//得到patent number
+		Elements b = doc.select("b");
+		if (b.size()>2) {
+			String numString = b.get(1).text();
+			patentsInfo.setPatentNumber(numString);
+		}
+
+		//得到名字-title
 		Elements link = doc.select("FONT");
 		for (int i = 0; i < link.size(); i++) {
 			String sizeAttr = link.get(i).attr("size");
@@ -52,26 +58,33 @@ public class HtmlParserUtil {
 				patentsInfo.setPatentName(link.get(i).text().toString());
 			}
 		}
-		//得到摘要部分
+		//得到摘要部分-abstract
 		Elements p = doc.select("p");
 		String abstractContent = p.get(0).text();
 		patentsInfo.setAbstractContent(abstractContent);
 		 
-		//得到ID99
-		Elements b = doc.select("b");
-		if (b.size()>2) {
-			String numString = b.get(1).text();
-				patentsInfo.setPatentNumber(numString);
-		}
 		//得到inventors
-		for (int i = 0; i <b.size(); i++) {
-			 
-			if (b.get(i).outerHtml().toString().contains("<br>")) {
-				String inventors = b.get(i).text().toString();
-				patentsInfo.setOwnerName(inventors);
-			}
+		Elements td = doc.select("table").get(3).select("td");
+		 
+		String  inventors = td.get(0).text();
+		
+		if (inventors.startsWith("**Please see images for:")) {
+			Elements adjustTd = doc.select("table").get(4).select("td");
+			inventors = td.get(0).text();
 		}
-		//得到field
+		patentsInfo.setOwnerName(inventors);
+		//得到Issue Date
+		
+		//得到Claim(s)
+		//得到Description/Specification
+		//得到Current US Classification
+		//得到Current CPC Classification
+		//得到Current CPC Classification Class
+		//得到International Classification
+		//得到Application Serial Number
+		//得到Application Date
+		//得到Application Type
+		
 		
 		return patentsInfo;
 	}
