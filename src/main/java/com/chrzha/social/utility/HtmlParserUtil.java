@@ -84,7 +84,7 @@ public class HtmlParserUtil {
 
 		if (inventors.startsWith("**Please see images for:")) {
 			Elements adjustTd = doc.select("table").get(4).select("td");
-			inventors = td.get(0).text();
+			inventors = adjustTd.get(0).text();
 		}
 		patentsInfo.setOwnerName(inventors);
 		// 得到Issue Date
