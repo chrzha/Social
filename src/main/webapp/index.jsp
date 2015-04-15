@@ -257,8 +257,14 @@
 										result[i]["patentName"]));
 								tr.append($("<td></td>").text(
 										result[i]["ownerName"]));
-								tr.append($("<td title='"+result[i]["abstractContent"]+"'></td>").text(
-										result[i]["abstractContent"].substring(0,100)+"..."));
+								tr
+										.append($(
+												"<td title='"+result[i]["abstractContent"]+"'></td>")
+												.text(
+														result[i]["abstractContent"]
+																.substring(0,
+																		100)
+																+ "..."));
 								tr.append($("<td></td>").text(
 										result[i]["patentUrl"]));
 								tb.append(tr);
@@ -294,6 +300,16 @@
 						<li><a href="#">清空所有记录</a></li>
 					</ul></li>
 			</ul>
+			<form class="navbar-form navbar-right">
+				<div class="form-group">
+					<input type="text" placeholder="Username" class="form-control">
+				</div>
+				<div class="form-group">
+					<input type="password" placeholder="Password" class="form-control">
+				</div>
+				<button type="submit" class="btn btn-success">登录</button>
+				<button type="button" class="btn btn-success">注册</button>
+			</form>
 		</div>
 		<!--/.nav-collapse -->
 	</div>
