@@ -57,6 +57,8 @@ public class DataController {
 		List<PatentsInfo> patentsInfoList = new ArrayList<PatentsInfo>();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd:HH:mm:ss");
 		String excuteDate = sdf.format(new Date());
+		String version = field1 + "=" + term1 + operator + field2
+				+ "=" + term2 + "[" + excuteDate + "]";
 		for (int i = 0; i < urlList.size(); i++) {
 			System.out.println(urlList.get(i));
 			String perHtmlContent = HttpGetUtil.getHtmlContent(endpoint,
@@ -64,11 +66,10 @@ public class DataController {
 			PatentsInfo patentsInfo = htmlParserUtil.getPatentInfo("http://"
 					+ endpoint + urlList.get(i), perHtmlContent);
 			patentsInfo.setPatentId(i + 1);
-			patentsInfo.setVersion(field1 + "=" + term1 + operator + field2
-					+ "=" + term2 + "[" + excuteDate + "]");
+			patentsInfo.setVersion(version);
 			dataCatchService.insertPatent(patentsInfo);
-			patentsInfoList.add(patentsInfo);
 		}
+		dataCatchService.getPatentsByVersion(version,0,10);
 		return JSONArray.fromObject(patentsInfoList).toString();
 	}
 

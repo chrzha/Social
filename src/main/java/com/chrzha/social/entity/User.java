@@ -24,7 +24,16 @@ public class User {
     private String userName;
     private String password;
     private String email;
-    public String getUserId() {
+    private Integer adminFlag;
+    
+    
+	public Integer getAdminFlag() {
+		return adminFlag;
+	}
+	public void setAdminFlag(Integer adminFlag) {
+		this.adminFlag = adminFlag;
+	}
+	public String getUserId() {
         return userId;
     }
     public void setUserId(String userId) {

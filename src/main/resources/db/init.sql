@@ -7,7 +7,17 @@ CREATE TABLE `uspto_patent_info` (
 	`patent_abstract` TEXT NULL,
 	`version` VARCHAR(50) NULL DEFAULT NULL,
 	PRIMARY KEY (`patent_id`)
-)
-COLLATE='utf8_general_ci'
-ENGINE=InnoDB
-AUTO_INCREMENT=109;
+);
+CREATE TABLE `users` (
+	`userid` VARCHAR(50) NOT NULL,
+	`username` VARCHAR(50) NOT NULL,
+	`password` VARCHAR(50) NOT NULL,
+	`email` VARCHAR(50) NOT NULL,
+	`adminflag` INT(11) NULL DEFAULT '0'
+);
+CREATE TABLE `users_version` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`userid` VARCHAR(50) NOT NULL DEFAULT '0',
+	`version` VARCHAR(50) NOT NULL DEFAULT '0',
+	PRIMARY KEY (`id`)
+);

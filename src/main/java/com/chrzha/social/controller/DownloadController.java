@@ -5,6 +5,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.chrzha.social.entity.PatentsInfo;
+import com.chrzha.social.entity.User;
 import com.chrzha.social.service.DataCatchService;
 
 @Controller
@@ -30,12 +33,13 @@ public class DownloadController {
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	@ResponseBody
-	public String download(@RequestParam("fileName") String fileName)
+	public String download(@RequestParam("fileName") String fileName,HttpServletRequest request)
 			throws FileNotFoundException {
 
-		String filePath = "F:/" + fileName + ".xls";
+		User user = (User) request.getSession().getAttribute("user");
+		String filePath = "C:/" + fileName + ".xls";
 
-		List<PatentsInfo> list = dataCatchService.getPatents();
+		List<PatentsInfo> list = dataCatchService.getPatents(user.getUserId(),0,Integer.MAX_VALUE);
 		// 创建excel
 		HSSFWorkbook wb = new HSSFWorkbook();
 

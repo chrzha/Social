@@ -22,9 +22,9 @@ public class DataCatchServiceImpl implements DataCatchService{
 	}
 
 	@Override
-	public List<PatentsInfo> getPatents() {
+	public List<PatentsInfo> getPatents(String userId,Integer pageNum,Integer pageSize) {
 		// TODO Auto-generated method stub
-		return dataCatchMapper.getPatents();
+		return dataCatchMapper.getPatents(userId,pageNum*pageSize,pageSize);
 	}
 
 	@Override
@@ -35,27 +35,39 @@ public class DataCatchServiceImpl implements DataCatchService{
 	}
 
 	@Override
-	public List<PatentsInfo> getPatentsByVersion(String version) {
+	public List<PatentsInfo> getPatentsByVersion(String version,Integer pageNum,Integer pageSize) {
 		// TODO Auto-generated method stub
-		return dataCatchMapper.getPatentsByVersion(version);
+		return dataCatchMapper.getPatentsByVersion(version,pageNum*pageSize,pageSize);
 	}
 
 	@Override
-	public void deleteAllPatents() {
+	public void deleteAllPatents(String userId) {
 		// TODO Auto-generated method stub
-		dataCatchMapper.deleteAllPatents();
+		dataCatchMapper.deleteAllPatents(userId);
 	}
 
 	@Override
-	public List<String> getVersions() {
+	public List<String> getVersions(String userId) {
 		// TODO Auto-generated method stub
-		return dataCatchMapper.getVersions();
+		return dataCatchMapper.getVersions(userId);
 	}
 
 	@Override
 	public void deletePatentsByVersion(String version) {
 		// TODO Auto-generated method stub
 		dataCatchMapper.deletePatentsByVersion(version);
+	}
+
+	@Override
+	public Integer getTotalCount(String userId) {
+		// TODO Auto-generated method stub
+		return dataCatchMapper.getTotalCount(userId);
+	}
+
+	@Override
+	public Integer getTotalCountByVersion(String version) {
+		// TODO Auto-generated method stub
+		return dataCatchMapper.getTotalCountByVersion(version);
 	}
 
 }

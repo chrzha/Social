@@ -14,7 +14,18 @@
 	</resultMap>
 	 
 	<select id="getPatents" resultMap="BaseResultMap"  >
-		 select * from uspto_patent_info order by patent_number
+		 select p.* from 
+         uspto_patent_info p left join  users_version uv 
+         on p.version=uv.version where uv.userid=#{userId} 
+         order by patent_number LIMIT #{pageNum},#{pageSize}
+	</select>
+	<select id="getTotalCount" resultType="java.lang.Integer"  >
+		 select count(*) from 
+         uspto_patent_info p left join  users_version uv 
+         on p.version=uv.version where uv.userid=#{userId} 
+	</select>
+	<select id="getTotalCountByVersion" resultType="java.lang.Integer"  >
+		 select count(*) from uspto_patent_info  where version=#{version}
 	</select>
 	
 	<insert id="insertPatents">
@@ -29,15 +40,21 @@
 		 (#{patentNumber},#{patentName},#{ownerName},#{patentUrl},#{abstractContent},#{version})
 	</insert>
 	<select id="getPatentsByVersion" resultMap="BaseResultMap">
-	      select * from uspto_patent_info where version=#{version} order by patent_number
+	      select * from uspto_patent_info where version=#{version} order by patent_number LIMIT #{pageNum},#{pageSize}
 	</select>
     <delete id="deleteAllPatents">
-	   delete from uspto_patent_info
+	    DELETE uspto_patent_info,users_version
+		FROM uspto_patent_info
+		RIGHT JOIN users_version ON uspto_patent_info.version=users_version.version
+		 
 	</delete>
     <delete id="deletePatentsByVersion">
-	   delete from uspto_patent_info where version=#{version}
+	  DELETE uspto_patent_info,users_version
+	FROM uspto_patent_info
+	RIGHT JOIN users_version ON uspto_patent_info.version=users_version.version
+	WHERE users_version.version=#{version}
 	</delete>
 	<select id="getVersions" resultType="java.lang.String">
-	   select distinct version from uspto_patent_info
+	  select distinct p.version from uspto_patent_info p left join users_version uv on p.version = uv.version where uv.userid=#{userId}
 	</select>
 </mapper>
