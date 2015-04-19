@@ -117,7 +117,6 @@
 								dataType : "json",
 								success : function(result) {
 									createSelete();
-									createTable(result);
 									hideMask();
 								},
 								error : function(result) {
@@ -140,7 +139,6 @@
 								dataType : "json",
 								success : function(result) {
 									createSelete();
-									createTable(result);
 									hideMask();
 								},
 								error : function(result) {

@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import net.sf.json.JSONArray;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.chrzha.social.entity.PatentsInfo;
+import com.chrzha.social.entity.User;
 import com.chrzha.social.service.DataCatchService;
+import com.chrzha.social.service.UserVersionService;
 import com.chrzha.social.utility.HtmlParserUtil;
 import com.chrzha.social.utility.HttpGetUtil;
 
@@ -28,6 +32,9 @@ public class DataController {
 	@Autowired
 	private DataCatchService dataCatchService;
 
+	@Autowired
+	private UserVersionService userVersionService;
+	
 	@Autowired
 	private HttpGetUtil httpGetUtil;
 
@@ -41,7 +48,7 @@ public class DataController {
 			@RequestParam(required = false, value = "field1") String field1,
 			@RequestParam(required = false, value = "operator") String operator,
 			@RequestParam(required = false, value = "term2") String term2,
-			@RequestParam(required = false, value = "field2") String field2)
+			@RequestParam(required = false, value = "field2") String field2,HttpServletRequest request)
 			throws Exception {
 		term1 = term1.replace(" ", "+");
 		term2 = term2.replace(" ", "+");
@@ -59,6 +66,7 @@ public class DataController {
 		String excuteDate = sdf.format(new Date());
 		String version = field1 + "=" + term1 + operator + field2
 				+ "=" + term2 + "[" + excuteDate + "]";
+		User user = (User) request.getSession().getAttribute("user");
 		for (int i = 0; i < urlList.size(); i++) {
 			System.out.println(urlList.get(i));
 			String perHtmlContent = HttpGetUtil.getHtmlContent(endpoint,
@@ -67,16 +75,21 @@ public class DataController {
 					+ endpoint + urlList.get(i), perHtmlContent);
 			patentsInfo.setPatentId(i + 1);
 			patentsInfo.setVersion(version);
-			dataCatchService.insertPatent(patentsInfo);
+			patentsInfoList.add(patentsInfo);
+			//dataCatchService.insertPatent(patentsInfo);
 		}
-		dataCatchService.getPatentsByVersion(version,0,10);
+		dataCatchService.insertPatents(patentsInfoList);
+		//insert user_version link
+		userVersionService.insertLink(user.getUserId(), version);
+		patentsInfoList = dataCatchService.getPatentsByVersion(version,0,10);
 		return JSONArray.fromObject(patentsInfoList).toString();
 	}
 
 	@RequestMapping(value = "/simpleUrl", method = RequestMethod.GET)
 	public @ResponseBody String LoadSimpleUrlData(
-			@RequestParam(required = false, value = "url") String url)
+			@RequestParam(required = false, value = "url") String url,HttpServletRequest request)
 			throws Exception {
+		User user = (User) request.getSession().getAttribute("user");
 		String endpoint = "patft.uspto.gov";
 		url = url.substring(22);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd:HH:mm:ss");
@@ -85,9 +98,13 @@ public class DataController {
 		PatentsInfo patentsInfo = htmlParserUtil.getPatentInfo("http://"
 				+ endpoint + url, htmlContent);
 		List<PatentsInfo> list = new ArrayList<PatentsInfo>();
-		patentsInfo.setVersion("Simple Url   ["+excuteDate+"]");
+		String version = "Simple Url   ["+excuteDate+"]";
+		patentsInfo.setVersion(version);
 		list.add(patentsInfo);
 		dataCatchService.insertPatents(list);
-		return JSONArray.fromObject(patentsInfo).toString();
+		//insert user version link
+		userVersionService.insertLink(user.getUserId(), version);
+	    List<PatentsInfo>	patentsInfoList = dataCatchService.getPatentsByVersion(version,0,10);
+		return JSONArray.fromObject(patentsInfoList).toString();
 	}
 }
