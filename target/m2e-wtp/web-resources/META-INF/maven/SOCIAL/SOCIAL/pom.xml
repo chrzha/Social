@@ -10,26 +10,16 @@
 		<spring.version>3.1.0.RELEASE</spring.version>
 		<slf4j.version>1.5.8</slf4j.version>
 		<log4j.version>1.2.17</log4j.version>
-	</properties>
-<repositories>
-        <repository>
-            <id>acxiom-shareddev</id>
-            <name>Acxiom Shared Dev Repository</name>
-            <url>http://maven.shareddev.acxiom.net</url>
-        </repository>
-        <repository>
-            <id>acxiom-shareddev-2</id>
-            <name>Acxiom Shared Dev Repository 2</name>
-            <url>http://maven.shareddev.acxiom.net/nexus/service/local/repositories/releases/content</url>
-        </repository>
-        <repository>
-            <id>acxiom-shareddev-snapshot</id>
-            <name>Acxiom Shared Dev Snapshot Repository</name>
-            <url>http://maven.shareddev.acxiom.net/nexus/content/repositories/snapshots</url>
-        </repository>
-    </repositories>
+	</properties> 
 
 	<dependencies>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.11</version>
+		</dependency>
+
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>jsp-api</artifactId>
@@ -59,26 +49,17 @@
 			<version>2.0</version>
 		</dependency>
  
-        <dependency>
-		  <groupId>net.sourceforge.dynamicreports</groupId>
-		  <artifactId>dynamicreports-core</artifactId>
-		  <version>3.2.0</version>
-		</dependency>
-		<dependency>
-		  <groupId>net.sourceforge.dynamicreports</groupId>
-		  <artifactId>dynamicreports-adhoc</artifactId>
-		  <version>3.2.0</version>
-		</dependency>
-		<dependency>
-		  <groupId>net.sourceforge.dynamicreports</groupId>
-		  <artifactId>dynamicreports-googlecharts</artifactId>
-		  <version>3.2.0</version>
-		</dependency>
+       
 		<dependency>
 		  <groupId>commons-collections</groupId>
 		  <artifactId>commons-collections</artifactId>
 		  <version>3.2.1</version>
 		</dependency> 
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.8.1</version>
+		</dependency>
 
 		<!-- Spring dependencies -->
 		<!-- hibernate dependencies -->
@@ -226,6 +207,12 @@
             <artifactId>httpclient</artifactId>
             <version>4.1</version>
         </dependency>
+        <dependency>
+			<groupId>org.htmlparser</groupId>
+			<artifactId>htmlparser</artifactId>
+			<version>1.6</version>
+		</dependency>
+        
 		<dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
