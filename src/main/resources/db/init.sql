@@ -5,9 +5,12 @@ CREATE TABLE `uspto_patent_info` (
 	`owner_name` VARCHAR(500) NULL DEFAULT '0',
 	`patent_url` VARCHAR(500) NULL DEFAULT '0',
 	`patent_abstract` TEXT NULL,
+	`patent_claims` LONGTEXT NULL,
+	`patent_desc` LONGTEXT NULL,
+	`patent_ref` TEXT NULL,
 	`version` VARCHAR(50) NULL DEFAULT NULL,
 	PRIMARY KEY (`patent_id`)
-);
+)
 CREATE TABLE `users` (
 	`userid` VARCHAR(50) NOT NULL,
 	`username` VARCHAR(50) NOT NULL,

@@ -10,6 +10,9 @@
 		<result column="patent_url" jdbcType="VARCHAR" property="patentUrl" />
 		<result column="field_name" jdbcType="VARCHAR" property="fieldName" />
 		<result column="patent_abstract" jdbcType="VARCHAR" property="abstractContent" />
+		<result column="patent_claims" jdbcType="VARCHAR" property="claims" />
+		<result column="patent_desc" jdbcType="VARCHAR" property="description" />
+		<result column="patent_ref" jdbcType="VARCHAR" property="reference" />
 		<result column="version" jdbcType="VARCHAR" property="version" />
 	</resultMap>
 	 
@@ -29,9 +32,9 @@
 	</select>
 	
 	<insert id="insertPatents">
-		insert into uspto_patent_info (patent_number,patent_name,owner_name,patent_url,patent_abstract,version) values
+		insert into uspto_patent_info (patent_number,patent_name,owner_name,patent_url,patent_abstract,patent_claims,patent_desc,patent_ref,version) values
 		<foreach collection="list" item="item" index="index" separator="," >
-		 (#{item.patentNumber},#{item.patentName},#{item.ownerName},#{item.patentUrl},#{item.abstractContent},#{item.version})
+		 (#{item.patentNumber},#{item.patentName},#{item.ownerName},#{item.patentUrl},#{item.abstractContent},#{item.claims},#{item.description},#{item.reference},#{item.version})
 		 </foreach>
 	</insert>
 

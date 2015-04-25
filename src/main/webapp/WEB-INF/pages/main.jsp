@@ -390,6 +390,24 @@
 																.substring(0,
 																		100)
 																+ "..."));
+								tr
+                                        .append($(
+                                                "<td title='"+patent["claims"]+"'></td>")
+                                                .text(
+                                                        patent["claims"]
+                                                                .substring(0,
+                                                                        100)
+                                                                + "..."));
+                                tr
+                                        .append($(
+                                                "<td title='"+patent["description"]+"'></td>")
+                                                .text(
+                                                        patent["description"]
+                                                                .substring(0,
+                                                                        100)
+                                                                + "..."));
+								tr.append($("<td></td>").text(
+										patent["reference"]));
 								tr.append($("<td></td>").text(
 										patent["patentUrl"]));
 								tb.append(tr);
@@ -419,9 +437,6 @@
 				<li class="dropdown active"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown">系统菜单 <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
-						<li><a href="#">数据备份</a></li>
-						<li><a href="#">数据还原</a></li>
-						<li class="divider"></li>
 						<li><a href="/data/user/logout">安全退出</a></li>
 					</ul></li>
 			</ul>
@@ -629,8 +644,11 @@
 							<th class="txt-center">RECORD</th>
 							<th class="txt-center">Patent Number</th>
 							<th class="txt-center">Title</th>
-							<th class="txt-center">Inventor Name</th>
+							<th class="txt-center">Inventor Name(City,State,Country	Type)</th>
 							<th class="txt-center">Abstract</th>
+							<th class="txt-center">Claim(s)</th>
+							<th class="txt-center">Description/Specification</th>
+							<th class="txt-center">Reference(s)</th>
 							<th class="txt-center">URL</th>
 						</tr>
 					</thead>

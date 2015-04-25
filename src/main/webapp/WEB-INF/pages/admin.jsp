@@ -39,20 +39,48 @@
 </style>
 <script type="text/javascript">
 $(document).ready(function() {
-$("#my_table").dataTable({
+    $("#my_table").dataTable({
 	
-	"bPaginate": true, 
-	"bLengthChange": false, 
-	"bFilter": true, 
-	"bSort": true,
-	"bDestroy":true,
-	"bRetrieve":true,
-	"bInfo": true, 
-	"aaSorting": [
-      [ 1, "asc" ]
-     ],
-     "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 2 ] }]
+        "bPaginate": true,
+        "bLengthChange": false,
+        "bFilter": true,
+        "bSort": true,
+        "bDestroy":true,
+        "bRetrieve":true,
+        "bInfo": true,
+        "aaSorting": [
+          [ 1, "asc" ]
+         ],
+         "aoColumnDefs": [ { "bSortable": false, "aTargets": [ 2 ] }]
 	});
+
+	$("#backup").on('click',function(){
+         $.ajax({
+            type : "GET",
+                       url : "/data/backup",
+                       success : function(result) {
+                           alert("success");
+                       },
+                       error : function(result) {
+                           alert("error!");
+                       }
+                   });
+
+	});
+
+	$("#restore").on('click',function(){
+        $.ajax({
+                type : "GET",
+                url : "/data/restoreDB",
+                success : function(result) {
+                    alert("success");
+                },
+                error : function(result) {
+                    alert("error!");
+                }
+            });
+
+    });
 });
 </script>
 </head>
@@ -76,7 +104,8 @@ $("#my_table").dataTable({
 				<li class="dropdown active"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown">系统菜单 <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu">
-
+                        <li><a href="#" id="backup">数据备份</a></li>
+						<li><a href="#" id="restore">数据还原</a></li>
 						<li class="divider"></li>
 						<li><a href="/data/user/logout">安全退出</a></li>
 					</ul></li>

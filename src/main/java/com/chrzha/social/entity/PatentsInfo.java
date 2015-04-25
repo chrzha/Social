@@ -8,9 +8,30 @@ public class PatentsInfo {
 	private String ownerName;
 	private String patentUrl;
 	private String abstractContent;
-	private String version;
+    private String claims;
+    private String description;
+	private String reference;
+    private String version;
 	
 	
+	public String getClaims() {
+		return claims;
+	}
+	public void setClaims(String claims) {
+		this.claims = claims;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public String getReference() {
+		return reference;
+	}
+	public void setReference(String reference) {
+		this.reference = reference;
+	}
 	public String getVersion() {
 		return version;
 	}
