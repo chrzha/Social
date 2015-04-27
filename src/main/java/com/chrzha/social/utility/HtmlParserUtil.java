@@ -90,7 +90,18 @@ public class HtmlParserUtil {
 		// 得到Issue Date
 
 		// 得到Claim(s)
+		int  cbegain = content.indexOf("<CENTER><b><i>Claims</b></i></CENTER>");
+		int  cend = content.indexOf("<CENTER><b><i>Description</b></i></CENTER>");
+		String claimsHtml = content.substring(cbegain+47, cend);
+		String claims = claimsHtml.replaceAll("<BR>","");
+		patentsInfo.setClaims(claims);
 		// 得到Description/Specification
+		int  dbegain = content.indexOf("<CENTER><b><i>Description</b></i></CENTER>");
+		int  dend = content.indexOf("<CENTER><b>* * * * *</b></CENTER>");
+		String descHtml = content.substring(dbegain+47, dend);
+		String desc = descHtml.replaceAll("<BR>","");
+		patentsInfo.setDescription(desc);
+		
 		// 得到Current US Classification
 		// 得到Current CPC Classification
 		// 得到Current CPC Classification Class

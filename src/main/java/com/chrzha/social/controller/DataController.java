@@ -59,10 +59,11 @@ public class DataController {
 				+ "&co1=" + operator + "&TERM2=" + term2 + "&FIELD2=" + field2
 				+ "&d=PTXT";
 		String htmlContent = HttpGetUtil.getHtmlContent(endpoint, urlString);
+
 		Map<String, Object> urlMap = htmlParserUtil.getPatentsURL(htmlContent,new HashMap<String, Object>()); 
 		List<String> urlList = htmlParserUtil.mapToList(urlMap);
 		List<PatentsInfo> patentsInfoList = new ArrayList<PatentsInfo>();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd:HH:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd:HH:mm:ss");
 		String excuteDate = sdf.format(new Date());
 		String version = field1 + "=" + term1 + operator + field2
 				+ "=" + term2 + "[" + excuteDate + "]";
@@ -92,7 +93,7 @@ public class DataController {
 		User user = (User) request.getSession().getAttribute("user");
 		String endpoint = "patft.uspto.gov";
 		url = url.substring(22);
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd:HH:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd:HH:mm:ss");
 		String excuteDate = sdf.format(new Date());
 		String htmlContent = HttpGetUtil.getHtmlContent(endpoint, url);
 		PatentsInfo patentsInfo = htmlParserUtil.getPatentInfo("http://"
